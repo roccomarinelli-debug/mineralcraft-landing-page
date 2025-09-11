@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Droplets, Sparkles, Leaf, Heart, ShoppingCart, Palette, ChevronDown } from 'lucide-react';
@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   
-  const colorThemes = [
+  const colorThemes = useMemo(() => [
     // GRADIENT VERSIONS (Current Style)
     {
       name: "Original Gradients",
@@ -91,7 +91,7 @@ const App: React.FC = () => {
       dark: "#35271C",
       useGradients: false
     }
-  ];
+  ], []);
 
   useEffect(() => {
     const theme = colorThemes[currentTheme];
