@@ -1,26 +1,272 @@
 import React from 'react';
-import logo from './logo.svg';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { Droplets, Sparkles, Leaf, Heart, ShoppingCart } from 'lucide-react';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  
+  const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.3 });
+  const [featuresRef, featuresInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [ctaRef, ctaInView] = useInView({ triggerOnce: true, threshold: 0.3 });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="app">
+      {/* Hero Section */}
+      <motion.section 
+        ref={heroRef}
+        className="hero"
+        style={{ y }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: heroInView ? 1 : 0 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      >
+        <div className="hero-background">
+          <motion.div 
+            className="floating-bubbles"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 2 }}
+          >
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="bubble"
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ 
+                  y: [-20, -100, -20],
+                  opacity: [0, 0.7, 0]
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 2,
+                  repeat: Infinity,
+                  delay: Math.random() * 2,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 2}s`
+                }}
+              />
+            ))}
+          </motion.div>
+        </div>
+        
+        <div className="hero-content">
+          <motion.div 
+            className="promo-badge"
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: heroInView ? 1 : 0, rotate: 0 }}
+            transition={{ delay: 0.3, duration: 0.8, type: "spring", bounce: 0.4 }}
+          >
+            <Sparkles className="sparkle-icon" />
+            LAUNCH 20% OFF
+          </motion.div>
+          
+          <motion.h1
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: heroInView ? 0 : 100, opacity: heroInView ? 1 : 0 }}
+            transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
+          >
+            TRANSFORM YOUR BUBBLES
+          </motion.h1>
+          
+          <motion.p
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: heroInView ? 0 : 50, opacity: heroInView ? 1 : 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="hero-subtitle"
+          >
+            Elevate your taste with Sodastream water infused with premium Italian Alps minerals.
+          </motion.p>
+          
+          <motion.button
+            className="cta-button primary"
+            initial={{ scale: 0 }}
+            animate={{ scale: heroInView ? 1 : 0 }}
+            transition={{ delay: 1, duration: 0.6, type: "spring", bounce: 0.3 }}
+            whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(196, 112, 97, 0.4)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ShoppingCart className="button-icon" />
+            Unlock Offer
+          </motion.button>
+        </div>
+        
+        <motion.div
+          className="hero-product-showcase"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: heroInView ? 1 : 0.8, opacity: heroInView ? 1 : 0 }}
+          transition={{ delay: 0.4, duration: 1.2, ease: "easeOut" }}
         >
-          Learn React
-        </a>
-      </header>
+          <motion.div 
+            className="product-bottle"
+            whileHover={{ scale: 1.05, rotateY: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="bottle-gradient"></div>
+            <div className="bottle-label">
+              <h3>MINERALCRAFT</h3>
+              <p>Premium Italian Alps</p>
+            </div>
+            <div className="bottle-bubbles">
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="product-bubble"
+                  animate={{
+                    y: [0, -30, 0],
+                    opacity: [0.3, 0.8, 0.3],
+                  }}
+                  transition={{
+                    duration: 2 + Math.random(),
+                    repeat: Infinity,
+                    delay: Math.random() * 2,
+                  }}
+                  style={{
+                    left: `${20 + Math.random() * 60}%`,
+                    top: `${20 + Math.random() * 60}%`,
+                  }}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
+      </motion.section>
+
+      {/* Features Section */}
+      <motion.section 
+        ref={featuresRef}
+        className="features"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: featuresInView ? 1 : 0, y: featuresInView ? 0 : 100 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: featuresInView ? 1 : 0, y: featuresInView ? 0 : 50 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+        >
+          MINERALCRAFT PERFECTS NATURE'S SOFT-DRINK
+        </motion.h2>
+        
+        <div className="features-grid">
+          {[
+            {
+              icon: <Droplets />,
+              title: "EXCEPTIONAL TASTE",
+              description: "Sourced from renowned springs, savor the crisp, refreshing premium craft at home.",
+              delay: 0.3
+            },
+            {
+              icon: <Heart />,
+              title: "HEALTHY & MUCH MORE",
+              description: "Infused with essential minerals like calcium, magnesium, potassium for sustained energy.",
+              delay: 0.5
+            },
+            {
+              icon: <Sparkles />,
+              title: "A LUXURIOUS HYDRATION RITUAL",
+              description: "Bringing water to life, beautiful bubbles hydrate every cell with mineral-rich bubbles.",
+              delay: 0.7
+            },
+            {
+              icon: <Leaf />,
+              title: "SUSTAINABLE & SMARTER",
+              description: "No plastic waste, no shipping. Sustainable, compostable, biodegradable packaging.",
+              delay: 0.9
+            }
+          ].map((feature, index) => (
+            <motion.div
+              key={index}
+              className="feature-card"
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ 
+                opacity: featuresInView ? 1 : 0, 
+                y: featuresInView ? 0 : 50,
+                scale: featuresInView ? 1 : 0.9
+              }}
+              transition={{ delay: feature.delay, duration: 0.8, ease: "easeOut" }}
+              whileHover={{ 
+                scale: 1.05, 
+                boxShadow: "0 20px 40px rgba(73, 75, 51, 0.15)",
+                y: -10
+              }}
+            >
+              <motion.div 
+                className="feature-icon"
+                whileHover={{ scale: 1.2, rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              >
+                {feature.icon}
+              </motion.div>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Final CTA Section */}
+      <motion.section 
+        ref={ctaRef}
+        className="final-cta"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: ctaInView ? 1 : 0 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.div 
+          className="cta-content"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: ctaInView ? 1 : 0.8, opacity: ctaInView ? 1 : 0 }}
+          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+        >
+          <motion.h2
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: ctaInView ? 0 : 30, opacity: ctaInView ? 1 : 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            MAKES OVER 25 LITRES
+          </motion.h2>
+          
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: ctaInView ? 0 : 20, opacity: ctaInView ? 1 : 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+          >
+            Add one scoop and carbonate for premium sparkling water at home.
+          </motion.p>
+          
+          <motion.div 
+            className="guarantee"
+            initial={{ scale: 0 }}
+            animate={{ scale: ctaInView ? 1 : 0 }}
+            transition={{ delay: 0.7, duration: 0.6, type: "spring", bounce: 0.3 }}
+          >
+            <Heart className="guarantee-icon" />
+            <span>LOVE IT OR MONEY BACK</span>
+          </motion.div>
+          
+          <motion.button
+            className="cta-button secondary"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: ctaInView ? 0 : 50, opacity: ctaInView ? 1 : 0 }}
+            transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
+            whileHover={{ 
+              scale: 1.05, 
+              boxShadow: "0 15px 35px rgba(206, 180, 159, 0.4)" 
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ShoppingCart className="button-icon" />
+            BUY NOW
+          </motion.button>
+        </motion.div>
+      </motion.section>
     </div>
   );
-}
+};
 
 export default App;
