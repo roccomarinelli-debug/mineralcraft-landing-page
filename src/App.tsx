@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Droplets, Sparkles, Leaf, Heart, ShoppingCart } from 'lucide-react';
+import { Droplets, Sparkles, Leaf, Heart, ShoppingCart, Palette, ChevronDown } from 'lucide-react';
 import './App.css';
 
 const App: React.FC = () => {
@@ -11,9 +11,170 @@ const App: React.FC = () => {
   const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.3 });
   const [featuresRef, featuresInView] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ctaRef, ctaInView] = useInView({ triggerOnce: true, threshold: 0.3 });
+  
+  const [currentTheme, setCurrentTheme] = useState(0);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  
+  const colorThemes = [
+    // GRADIENT VERSIONS (Current Style)
+    {
+      name: "Original Gradients",
+      primary: "#494B33",
+      secondary: "#CEB49F", 
+      accent: "#C27061",
+      cream: "#E0D0D0",
+      dark: "#35271C",
+      useGradients: true
+    },
+    {
+      name: "Coral Focus Gradients",
+      primary: "#C27061",
+      secondary: "#494B33",
+      accent: "#CEB49F",
+      cream: "#E0D0D0",
+      dark: "#35271C",
+      useGradients: true
+    },
+    {
+      name: "Warm Cream Gradients",
+      primary: "#CEB49F",
+      secondary: "#C27061",
+      accent: "#494B33",
+      cream: "#E0D0D0",
+      dark: "#35271C",
+      useGradients: true
+    },
+    
+    // SOLID COLOR VERSIONS
+    {
+      name: "Earth Green Solid",
+      primary: "#494B33",
+      secondary: "#CEB49F",
+      accent: "#C27061",
+      cream: "#E0D0D0",
+      dark: "#35271C",
+      useGradients: false
+    },
+    {
+      name: "Coral Solid",
+      primary: "#C27061",
+      secondary: "#494B33",
+      accent: "#CEB49F",
+      cream: "#E0D0D0",
+      dark: "#35271C",
+      useGradients: false
+    },
+    {
+      name: "Cream Solid",
+      primary: "#CEB49F",
+      secondary: "#C27061",
+      accent: "#494B33",
+      cream: "#E0D0D0",
+      dark: "#35271C",
+      useGradients: false
+    },
+    {
+      name: "Dark Brown Solid",
+      primary: "#35271C",
+      secondary: "#CEB49F",
+      accent: "#C27061",
+      cream: "#E0D0D0",
+      dark: "#494B33",
+      useGradients: false
+    },
+    {
+      name: "Light Cream Solid",
+      primary: "#E0D0D0",
+      secondary: "#494B33",
+      accent: "#C27061",
+      cream: "#CEB49F",
+      dark: "#35271C",
+      useGradients: false
+    }
+  ];
+
+  useEffect(() => {
+    const theme = colorThemes[currentTheme];
+    document.documentElement.style.setProperty('--primary-dark', theme.primary);
+    document.documentElement.style.setProperty('--primary-light', theme.secondary);
+    document.documentElement.style.setProperty('--accent-coral', theme.accent);
+    document.documentElement.style.setProperty('--accent-cream', theme.cream);
+    document.documentElement.style.setProperty('--dark-brown', theme.dark);
+    
+    // Set gradient mode
+    if (theme.useGradients) {
+      document.documentElement.style.setProperty('--gradient-primary', `linear-gradient(135deg, ${theme.primary} 0%, ${theme.dark} 100%)`);
+      document.documentElement.style.setProperty('--gradient-accent', `linear-gradient(135deg, ${theme.accent} 0%, ${theme.secondary} 100%)`);
+    } else {
+      document.documentElement.style.setProperty('--gradient-primary', theme.primary);
+      document.documentElement.style.setProperty('--gradient-accent', theme.accent);
+    }
+  }, [currentTheme, colorThemes]);
 
   return (
     <div className="app">
+      {/* Color Palette Switcher */}
+      <motion.div 
+        className="palette-switcher"
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
+      >
+        <motion.button
+          className="palette-button"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Palette className="palette-icon" />
+          <span className="palette-text">Colors</span>
+          <motion.div
+            animate={{ rotate: dropdownOpen ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ChevronDown className="chevron-icon" />
+          </motion.div>
+        </motion.button>
+        
+        <motion.div
+          className="palette-dropdown"
+          initial={false}
+          animate={{ 
+            opacity: dropdownOpen ? 1 : 0,
+            y: dropdownOpen ? 0 : -10,
+            pointerEvents: dropdownOpen ? 'auto' : 'none'
+          }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          {colorThemes.map((theme, index) => (
+            <motion.button
+              key={index}
+              className={`theme-option ${currentTheme === index ? 'active' : ''}`}
+              onClick={() => {
+                setCurrentTheme(index);
+                setDropdownOpen(false);
+              }}
+              whileHover={{ scale: 1.02, x: 5 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="theme-colors">
+                <div className="color-dot" style={{ backgroundColor: theme.primary }}></div>
+                <div className="color-dot" style={{ backgroundColor: theme.secondary }}></div>
+                <div className="color-dot" style={{ backgroundColor: theme.accent }}></div>
+              </div>
+              <span className="theme-name">{theme.name}</span>
+              {currentTheme === index && (
+                <motion.div 
+                  className="active-indicator"
+                  layoutId="activeTheme"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+            </motion.button>
+          ))}
+        </motion.div>
+      </motion.div>
+
       {/* Hero Section */}
       <motion.section 
         ref={heroRef}
