@@ -240,7 +240,7 @@ const App: React.FC = () => {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="hero-subtitle"
           >
-            Elevate your taste with Sodastream water infused with premium Italian Alps minerals.
+            Elevate the taste of your Sodastream water to the mineral profile of the Italian Alps.
           </motion.p>
           
           <motion.button
@@ -262,38 +262,39 @@ const App: React.FC = () => {
           animate={{ scale: heroInView ? 1 : 0.8, opacity: heroInView ? 1 : 0 }}
           transition={{ delay: 0.4, duration: 1.2, ease: "easeOut" }}
         >
-          <motion.div 
-            className="product-bottle"
-            whileHover={{ scale: 1.05, rotateY: 10 }}
+          <motion.img
+            src="/images/hero-product.webp"
+            alt="MINERALCRAFT Premium Sparkling Water - Transform Your Bubbles"
+            className="hero-product-image"
+            whileHover={{ scale: 1.05, rotateY: 2 }}
             transition={{ duration: 0.3 }}
-          >
-            <div className="bottle-gradient"></div>
-            <div className="bottle-label">
-              <h3>MINERALCRAFT</h3>
-              <p>Premium Italian Alps</p>
-            </div>
-            <div className="bottle-bubbles">
-              {[...Array(8)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="product-bubble"
-                  animate={{
-                    y: [0, -30, 0],
-                    opacity: [0.3, 0.8, 0.3],
-                  }}
-                  transition={{
-                    duration: 2 + Math.random(),
-                    repeat: Infinity,
-                    delay: Math.random() * 2,
-                  }}
-                  style={{
-                    left: `${20 + Math.random() * 60}%`,
-                    top: `${20 + Math.random() * 60}%`,
-                  }}
-                />
-              ))}
-            </div>
-          </motion.div>
+            loading="eager"
+          />
+          
+          {/* Floating bubbles overlay */}
+          <div className="hero-bubbles-overlay">
+            {[...Array(12)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="hero-bubble"
+                animate={{
+                  y: [0, -40, 0],
+                  opacity: [0.2, 0.8, 0.2],
+                  scale: [0.5, 1, 0.5],
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 2,
+                  repeat: Infinity,
+                  delay: Math.random() * 3,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  left: `${15 + Math.random() * 70}%`,
+                  top: `${20 + Math.random() * 60}%`,
+                }}
+              />
+            ))}
+          </div>
         </motion.div>
       </motion.section>
 
