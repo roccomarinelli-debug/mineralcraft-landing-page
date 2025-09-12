@@ -119,6 +119,17 @@ const App: React.FC = () => {
       cream: "#EEEEED",
       dark: "#1C1C1C",
       useGradients: false
+    },
+    
+    // PANTONE 2025 FLORAL PATHWAYS
+    {
+      name: "Floral Pathways",
+      primary: "#7BA05B",  // High Meadow (Willow)
+      secondary: "#F5F1EB", // Dolomite Dust (Gardenia)
+      accent: "#6B9BD9",   // Glacial Tarn (Cornflower Blue)
+      cream: "#D4A574",    // Alpenglow Rose (Rose Tan)
+      dark: "#8B4F47",     // Alpine Loam (Mocha Mousse)
+      useGradients: false
     }
   ], []);
 
