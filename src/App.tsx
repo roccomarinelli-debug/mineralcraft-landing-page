@@ -90,6 +90,35 @@ const App: React.FC = () => {
       cream: "#CEB49F",
       dark: "#35271C",
       useGradients: false
+    },
+    
+    // NEW MINERALCRAFT COLOR THEMES
+    {
+      name: "Alpine Heritage",
+      primary: "#68A097",
+      secondary: "#D0C9C0",
+      accent: "#494B33",
+      cream: "#A97C50",
+      dark: "#F4F5F0",
+      useGradients: false
+    },
+    {
+      name: "Alpenglow",
+      primary: "#E6A5A1",
+      secondary: "#74819F",
+      accent: "#DDC490",
+      cream: "#3E4C66",
+      dark: "#FBFBFB",
+      useGradients: false
+    },
+    {
+      name: "Mineral Flame",
+      primary: "#BDB2D8",
+      secondary: "#CD212A",
+      accent: "#FFD700",
+      cream: "#EEEEED",
+      dark: "#1C1C1C",
+      useGradients: false
     }
   ], []);
 
