@@ -275,16 +275,21 @@ const App: React.FC = () => {
           </motion.div>
         </div>
         
+        {/* Promotional Banner */}
+        <motion.div 
+          className="promo-banner"
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+        >
+          <div className="promo-text-container">
+            <div className="promo-text">
+              Use code 'LAUNCH' for 20% OFF your first purchase ✨ Use code 'LAUNCH' for 20% OFF your first purchase ✨ Use code 'LAUNCH' for 20% OFF your first purchase ✨
+            </div>
+          </div>
+        </motion.div>
+
         <div className="hero-content">
-          <motion.div 
-            className="promo-badge"
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: heroInView ? 1 : 0, rotate: 0 }}
-            transition={{ delay: 0.3, duration: 0.8, type: "spring", bounce: 0.4 }}
-          >
-            <Sparkles className="sparkle-icon" />
-            LAUNCH 20% OFF
-          </motion.div>
           
           <motion.h1
             initial={{ y: 100, opacity: 0 }}
