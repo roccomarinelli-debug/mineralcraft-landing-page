@@ -327,7 +327,7 @@ body {
 }
 
 .cta-button.primary {
-  background: var(--gradient-accent);
+  background: var(--cta-color);
   color: var(--white);
   box-shadow: var(--shadow-strong);
 }

@@ -129,6 +129,7 @@ const App: React.FC = () => {
       accent: "#6B9BD9",   // Glacial Tarn (Cornflower Blue)
       cream: "#D4A574",    // Alpenglow Rose (Rose Tan)
       dark: "#8B4F47",     // Alpine Loam (Mocha Mousse)
+      tertiary: "#E8A87C", // Peach Echo (tertiary for CTA)
       useGradients: false
     },
     
@@ -140,6 +141,7 @@ const App: React.FC = () => {
       accent: "#7391C8",   // Cornflower Blue
       cream: "#D19C97",    // Rose Tan
       dark: "#A47864",     // Mocha Mousse
+      tertiary: "#B8A082", // Warm Taupe (tertiary for CTA)
       useGradients: false
     }
   ], []);
@@ -151,6 +153,13 @@ const App: React.FC = () => {
     document.documentElement.style.setProperty('--accent-coral', theme.accent);
     document.documentElement.style.setProperty('--accent-cream', theme.cream);
     document.documentElement.style.setProperty('--dark-brown', theme.dark);
+    
+    // Set tertiary color for CTA buttons (for Floral Pathways and Pantone Refined)
+    if (theme.tertiary) {
+      document.documentElement.style.setProperty('--cta-color', theme.tertiary);
+    } else {
+      document.documentElement.style.setProperty('--cta-color', theme.accent);
+    }
     
     // Set gradient mode
     if (theme.useGradients) {
@@ -303,7 +312,7 @@ const App: React.FC = () => {
             whileTap={{ scale: 0.95 }}
           >
             <ShoppingCart className="button-icon" />
-            Unlock Offer
+            TRY IT NOW
           </motion.button>
         </div>
         
