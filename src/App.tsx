@@ -379,25 +379,25 @@ const App: React.FC = () => {
             {
               icon: <Droplets />,
               title: "EXCEPTIONAL TASTE",
-              description: "Sourced from renowned springs, savor the crisp, refreshing premium craft at home.",
+              description: "Inspired by nature's most renowned mineral springs, savour the crisp, refreshing taste of premium water crafted at home.",
               delay: 0.3
             },
             {
               icon: <Heart />,
-              title: "HEALTHY & MUCH MORE",
-              description: "Infused with essential minerals like calcium, magnesium, potassium for sustained energy.",
+              title: "MUCH MORE THAN BUBBLES",
+              description: "Infused with essential minerals like calcium, magnesium and potassium - supporting hydration, bone health and sustained energy.",
               delay: 0.5
             },
             {
               icon: <Sparkles />,
               title: "A LUXURIOUS HYDRATION RITUAL",
-              description: "Bringing water to life, beautiful bubbles hydrate every cell with mineral-rich bubbles.",
+              description: "Bring your water to life and bathe every cell in your body with mineral-rich bubbles.",
               delay: 0.7
             },
             {
               icon: <Leaf />,
               title: "SUSTAINABLE & SMARTER",
-              description: "No plastic waste, no shipping. Sustainable, compostable, biodegradable packaging.",
+              description: "No plastic waste, no shipping water across the planet, no water table degradation.",
               delay: 0.9
             }
           ].map((feature, index) => (
