@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Droplets, Sparkles, Leaf, Heart, ShoppingCart, Palette, ChevronDown } from 'lucide-react';
+import { Droplets, Sparkles, Leaf, Heart, ShoppingCart, Palette, ChevronDown, Plus, Minus } from 'lucide-react';
 import './App.css';
 
 const App: React.FC = () => {
@@ -14,6 +14,35 @@ const App: React.FC = () => {
   
   const [currentTheme, setCurrentTheme] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [faqRef, faqInView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  
+  const faqData = useMemo(() => [
+    {
+      question: "What is mineralcraft?",
+      answer: "It's the finest tasting mineral water, crafted by you. We've blended the purest essential minerals to match the profile of the world's most popular springs so you can make luxurious sparkling mineral water at home."
+    },
+    {
+      question: "How do I use it?",
+      answer: "It's as easy as 1-2.\n\n1. Add a scoop of Mineralcraft's Italian Alps blend to your water bottle.\n\n2. Carbonate in a SodaStream\n\nInstantly boost your bubble's flavour and enjoy delicious water with pure minerals - no shipping water across the planet required."
+    },
+    {
+      question: "Why the Italian Alps",
+      answer: "Because nature does it best, and there's no more distinctive mineral water in the world than the sulphate rich flavour of the northern Italian Alps."
+    },
+    {
+      question: "How is it better than bottled mineral water?",
+      answer: "There's no plastic waste, no shipping heavy bottles of water around the globe and no paying for expensive brands.\n\nMineralcraft is way better than bottled mineral water, but with the same crisp, mineral-rich taste."
+    },
+    {
+      question: "What makes mineralcraft so different?",
+      answer: "Mineralcraft is a daily wellness upgrade. Treat your tastebuds to the simple but delicious taste of natural mineral water, devoid of artificial additives or sugary flavours.\n\nPerfectly balanced minerals to aid digestion, muscle recovery, and skin health. Mineralcraft is luxurious hydration."
+    },
+    {
+      question: "Can I take it on the go?",
+      answer: "Take premium mineral water beyond the table—perfect for your water bottle at work or the gym. Our compact, stylish tin ensures top-tier hydration anywhere—whether at the office, the gym, or on your own Alpine adventure."
+    }
+  ], []);
   
   const colorThemes = useMemo(() => [
     // GRADIENT VERSIONS (Current Style)
@@ -491,6 +520,67 @@ const App: React.FC = () => {
             BUY NOW
           </motion.button>
         </motion.div>
+      </motion.section>
+
+      {/* FAQ Section */}
+      <motion.section 
+        ref={faqRef}
+        className="faq-section"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: faqInView ? 1 : 0, y: faqInView ? 0 : 100 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: faqInView ? 1 : 0, y: faqInView ? 0 : 50 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+        >
+          FREQUENTLY ASKED QUESTIONS
+        </motion.h2>
+        
+        <div className="faq-container">
+          {faqData.map((faq, index) => (
+            <motion.div
+              key={index}
+              className="faq-item"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: faqInView ? 1 : 0, y: faqInView ? 0 : 30 }}
+              transition={{ delay: 0.3 + (index * 0.1), duration: 0.6 }}
+            >
+              <motion.button
+                className="faq-question"
+                onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>{faq.question}</span>
+                <motion.div
+                  animate={{ rotate: openFaqIndex === index ? 45 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="faq-icon"
+                >
+                  <Plus size={20} />
+                </motion.div>
+              </motion.button>
+              
+              <motion.div
+                className="faq-answer-container"
+                initial={false}
+                animate={{
+                  height: openFaqIndex === index ? "auto" : 0,
+                  opacity: openFaqIndex === index ? 1 : 0
+                }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+              >
+                <div className="faq-answer">
+                  {faq.answer.split('\n\n').map((paragraph, pIndex) => (
+                    <p key={pIndex}>{paragraph}</p>
+                  ))}
+                </div>
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
       </motion.section>
     </div>
   );
