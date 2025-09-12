@@ -54,6 +54,7 @@ const App: React.FC = () => {
       accent: "#C27061",
       cream: "#E0D0D0",
       dark: "#35271C",
+      tertiary: "#8B7355",
       useGradients: true
     },
     {
@@ -63,6 +64,7 @@ const App: React.FC = () => {
       accent: "#CEB49F",
       cream: "#E0D0D0",
       dark: "#35271C",
+      tertiary: "#D49B8A",
       useGradients: true
     },
     {
@@ -72,6 +74,7 @@ const App: React.FC = () => {
       accent: "#494B33",
       cream: "#E0D0D0",
       dark: "#35271C",
+      tertiary: "#E5D5C7",
       useGradients: true
     },
     
@@ -83,6 +86,7 @@ const App: React.FC = () => {
       accent: "#C27061",
       cream: "#E0D0D0",
       dark: "#35271C",
+      tertiary: "#8B7355",
       useGradients: false
     },
     {
@@ -92,6 +96,7 @@ const App: React.FC = () => {
       accent: "#CEB49F",
       cream: "#E0D0D0",
       dark: "#35271C",
+      tertiary: "#D49B8A",
       useGradients: false
     },
     {
@@ -101,6 +106,7 @@ const App: React.FC = () => {
       accent: "#494B33",
       cream: "#E0D0D0",
       dark: "#35271C",
+      tertiary: "#E5D5C7",
       useGradients: false
     },
     {
@@ -110,6 +116,7 @@ const App: React.FC = () => {
       accent: "#C27061",
       cream: "#E0D0D0",
       dark: "#494B33",
+      tertiary: "#6B4C38",
       useGradients: false
     },
     {
@@ -119,6 +126,7 @@ const App: React.FC = () => {
       accent: "#C27061",
       cream: "#CEB49F",
       dark: "#35271C",
+      tertiary: "#F2ECE8",
       useGradients: false
     },
     
@@ -130,6 +138,7 @@ const App: React.FC = () => {
       accent: "#494B33",
       cream: "#A97C50",
       dark: "#F4F5F0",
+      tertiary: "#9BC5BC",
       useGradients: false
     },
     {
@@ -139,6 +148,7 @@ const App: React.FC = () => {
       accent: "#DDC490",
       cream: "#3E4C66",
       dark: "#FBFBFB",
+      tertiary: "#F0C5C2",
       useGradients: false
     },
     {
@@ -148,6 +158,7 @@ const App: React.FC = () => {
       accent: "#FFD700",
       cream: "#EEEEED",
       dark: "#1C1C1C",
+      tertiary: "#D4C9E8",
       useGradients: false
     },
     
@@ -184,10 +195,17 @@ const App: React.FC = () => {
     document.documentElement.style.setProperty('--accent-cream', theme.cream);
     document.documentElement.style.setProperty('--dark-brown', theme.dark);
     
-    // Set tertiary color for CTA buttons (for Floral Pathways and Pantone Refined)
+    // Set tertiary color for backgrounds and special elements
     if (theme.tertiary) {
-      document.documentElement.style.setProperty('--cta-color', theme.tertiary);
+      document.documentElement.style.setProperty('--tertiary-color', theme.tertiary);
+      // For Floral Pathways and Pantone Refined, use existing tertiary for CTA
+      if (theme.name === 'Floral Pathways' || theme.name === 'Pantone Refined') {
+        document.documentElement.style.setProperty('--cta-color', theme.tertiary);
+      } else {
+        document.documentElement.style.setProperty('--cta-color', theme.accent);
+      }
     } else {
+      document.documentElement.style.setProperty('--tertiary-color', theme.accent);
       document.documentElement.style.setProperty('--cta-color', theme.accent);
     }
     
