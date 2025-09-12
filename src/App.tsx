@@ -16,6 +16,7 @@ const App: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [faqRef, faqInView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const [stepsRef, stepsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
   
   const faqData = useMemo(() => [
     {
@@ -462,6 +463,61 @@ const App: React.FC = () => {
               <p>{feature.description}</p>
             </motion.div>
           ))}
+        </div>
+      </motion.section>
+
+      {/* 2-Step Process Section */}
+      <motion.section 
+        ref={stepsRef}
+        className="steps-section"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: stepsInView ? 1 : 0, y: stepsInView ? 0 : 100 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        <motion.h2
+          className="steps-header"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: stepsInView ? 1 : 0, y: stepsInView ? 0 : 50 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+        >
+          Craft the taste of the Italian Alps in 2 steps
+        </motion.h2>
+        
+        <div className="steps-content">
+          <motion.div 
+            className="steps-column"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: stepsInView ? 1 : 0, x: stepsInView ? 0 : -50 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            <div className="step-item">
+              <h3 className="step-title">Step 1</h3>
+              <p className="step-description">Add a measured scoop of Mineralcraft to your water depending on your preferred taste.</p>
+            </div>
+            
+            <div className="step-item">
+              <h3 className="step-title">Step 2</h3>
+              <p className="step-description">Carbonate to dissolve the minerals and gently mix the flavours.</p>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="video-column"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: stepsInView ? 1 : 0, x: stepsInView ? 0 : 50 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            <div className="video-container">
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="SodaStream Mineralcraft Process"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="process-video"
+              />
+            </div>
+          </motion.div>
         </div>
       </motion.section>
 
