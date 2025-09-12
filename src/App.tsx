@@ -130,6 +130,17 @@ const App: React.FC = () => {
       cream: "#D4A574",    // Alpenglow Rose (Rose Tan)
       dark: "#8B4F47",     // Alpine Loam (Mocha Mousse)
       useGradients: false
+    },
+    
+    // PANTONE 2025 REFINED HEX CODES
+    {
+      name: "Pantone Refined",
+      primary: "#9A8B4F",  // Willow
+      secondary: "#F5F3F0", // Gardenia (approximated)
+      accent: "#7391C8",   // Cornflower Blue
+      cream: "#D19C97",    // Rose Tan
+      dark: "#A47864",     // Mocha Mousse
+      useGradients: false
     }
   ], []);
 
