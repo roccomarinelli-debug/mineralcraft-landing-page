@@ -17,6 +17,40 @@ const App: React.FC = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [faqRef, faqInView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [stepsRef, stepsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [calcRef, calcInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  
+  // Calculator state
+  const [monthlyLitres, setMonthlyLitres] = useState(20);
+  const [waterType, setWaterType] = useState<'sanpell' | 'perrier'>('sanpell');
+
+  // Calculator logic
+  const waterPrices = { sanpell: 5.50, perrier: 4.00 };
+  const mineralcraftPrice = 39.00;
+  const mineralcraftLitres = 25;
+  
+  const calculations = useMemo(() => {
+    const monthlySpendingOld = monthlyLitres * waterPrices[waterType];
+    const tinsNeeded = Math.ceil(monthlyLitres / mineralcraftLitres);
+    const monthlySpendingNew = tinsNeeded * mineralcraftPrice;
+    const monthlySavings = monthlySpendingOld - monthlySpendingNew;
+    const yearlySavings = monthlySavings * 12;
+    
+    // CO2 calculations (approx 0.5kg CO2 per plastic bottle = 0.5L, so 1kg CO2 per litre)
+    const monthlyBottles = monthlyLitres * 2; // assuming 0.5L bottles
+    const monthlyCO2Saved = monthlyLitres * 1.0; // 1kg CO2 per litre approximation
+    const yearlyCO2Saved = monthlyCO2Saved * 12;
+    
+    return {
+      monthlySpendingOld,
+      monthlySpendingNew,
+      monthlySavings,
+      yearlySavings,
+      monthlyBottles,
+      monthlyCO2Saved,
+      yearlyCO2Saved,
+      tinsNeeded
+    };
+  }, [monthlyLitres, waterType]);
   
   const faqData = useMemo(() => [
     {
@@ -535,6 +569,164 @@ const App: React.FC = () => {
                 className="process-video"
               />
             </div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Savings Calculator Section */}
+      <motion.section 
+        ref={calcRef}
+        className="calculator-section"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: calcInView ? 1 : 0, y: calcInView ? 0 : 100 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        <motion.h2
+          className="calculator-header"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: calcInView ? 1 : 0, y: calcInView ? 0 : 50 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+        >
+          Calculate Your Savings
+        </motion.h2>
+        
+        <motion.p
+          className="calculator-subtitle"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: calcInView ? 1 : 0, y: calcInView ? 0 : 30 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          See how much money and CO₂ you'll save by switching to MINERALCRAFT
+        </motion.p>
+        
+        <div className="calculator-container">
+          <motion.div 
+            className="calculator-inputs"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: calcInView ? 1 : 0, x: calcInView ? 0 : -50 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            <div className="input-group">
+              <label className="input-label">Monthly mineral water consumption</label>
+              <div className="slider-container">
+                <motion.div
+                  className="slider-track"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: calcInView ? 1 : 0 }}
+                  transition={{ delay: 0.6, duration: 0.8 }}
+                >
+                  <motion.div 
+                    className="slider-fill"
+                    style={{ width: `${(monthlyLitres / 100) * 100}%` }}
+                  />
+                  <motion.div
+                    className="slider-thumb"
+                    style={{ left: `${(monthlyLitres / 100) * 100}%` }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    onDrag={(_, info) => {
+                      const container = info.point.x;
+                      const containerWidth = 300; // Approximate slider width
+                      const percentage = Math.max(0, Math.min(1, container / containerWidth));
+                      setMonthlyLitres(Math.round(percentage * 100) || 1);
+                    }}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                  />
+                </motion.div>
+                <input
+                  type="range"
+                  min="1"
+                  max="100"
+                  value={monthlyLitres}
+                  onChange={(e) => setMonthlyLitres(Number(e.target.value))}
+                  className="slider-input"
+                />
+                <div className="slider-value">{monthlyLitres} litres/month</div>
+              </div>
+            </div>
+            
+            <div className="input-group">
+              <label className="input-label">Current brand preference</label>
+              <div className="brand-selector">
+                <motion.button
+                  className={`brand-option ${waterType === 'sanpell' ? 'active' : ''}`}
+                  onClick={() => setWaterType('sanpell')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span className="brand-name">San Pellegrino</span>
+                  <span className="brand-price">$5.50/L</span>
+                </motion.button>
+                <motion.button
+                  className={`brand-option ${waterType === 'perrier' ? 'active' : ''}`}
+                  onClick={() => setWaterType('perrier')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span className="brand-name">Perrier</span>
+                  <span className="brand-price">$4.00/L</span>
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="calculator-results"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: calcInView ? 1 : 0, x: calcInView ? 0 : 50 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            <div className="results-grid">
+              <motion.div 
+                className="result-card savings-card"
+                whileHover={{ scale: 1.05, y: -5 }}
+              >
+                <div className="result-icon">💰</div>
+                <div className="result-value">
+                  ${calculations.monthlySavings > 0 ? calculations.monthlySavings.toFixed(0) : 0}
+                </div>
+                <div className="result-label">Monthly Savings</div>
+                <div className="result-sublabel">
+                  ${calculations.yearlySavings > 0 ? calculations.yearlySavings.toFixed(0) : 0}/year
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="result-card co2-card"
+                whileHover={{ scale: 1.05, y: -5 }}
+              >
+                <div className="result-icon">🌱</div>
+                <div className="result-value">{calculations.monthlyCO2Saved.toFixed(1)}kg</div>
+                <div className="result-label">CO₂ Saved Monthly</div>
+                <div className="result-sublabel">
+                  {calculations.monthlyBottles} bottles avoided
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="result-card mineralcraft-card"
+                whileHover={{ scale: 1.05, y: -5 }}
+              >
+                <div className="result-icon">🏔️</div>
+                <div className="result-value">{calculations.tinsNeeded}</div>
+                <div className="result-label">Tins Needed</div>
+                <div className="result-sublabel">
+                  Makes {monthlyLitres}L premium water
+                </div>
+              </motion.div>
+            </div>
+            
+            <motion.div 
+              className="calculator-cta"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: calcInView ? 1 : 0, y: calcInView ? 0 : 20 }}
+              transition={{ delay: 1, duration: 0.6 }}
+            >
+              <p className="cta-text">
+                Start saving ${calculations.monthlySavings > 0 ? calculations.monthlySavings.toFixed(0) : 0} per month
+              </p>
+            </motion.div>
           </motion.div>
         </div>
       </motion.section>
