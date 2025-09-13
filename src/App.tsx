@@ -527,7 +527,7 @@ const App: React.FC = () => {
           animate={{ opacity: featuresInView ? 1 : 0, y: featuresInView ? 0 : 50 }}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          NATURE'S SOFT DRINK, PERFECTED.
+          Don't buy expensive mineral water, craft your own delicious blend at home.
         </motion.h2>
         
         <div className="features-grid">
