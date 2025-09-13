@@ -533,29 +533,29 @@ const App: React.FC = () => {
         <div className="features-grid">
           {[
             {
-              image: "/images/features/exceptional-taste.svg",
-              imageAlt: "Exceptional taste feature - premium water quality",
+              image: "/images/features/exceptional-taste.webp",
+              imageAlt: "Pristine mountain lake - exceptional water taste",
               title: "EXCEPTIONAL TASTE",
               description: "Inspired by nature's most renowned mineral springs, savour the crisp, refreshing taste of premium water crafted at home.",
               delay: 0.3
             },
             {
-              image: "/images/features/more-than-bubbles.svg",
-              imageAlt: "More than bubbles - essential minerals",
+              image: "/images/features/more-than-bubbles.webp",
+              imageAlt: "Majestic mountain peaks - essential minerals",
               title: "MUCH MORE THAN BUBBLES",
               description: "Infused with essential minerals like calcium, magnesium and potassium - supporting hydration, bone health and sustained energy.",
               delay: 0.5
             },
             {
-              image: "/images/features/luxurious-ritual.svg",
-              imageAlt: "Luxurious hydration ritual experience",
+              image: "/images/features/luxurious-ritual.webp",
+              imageAlt: "Misty mountain landscape - luxurious hydration ritual",
               title: "A LUXURIOUS HYDRATION RITUAL",
               description: "Bring your water to life and bathe every cell in your body with mineral-rich bubbles.",
               delay: 0.7
             },
             {
-              image: "/images/features/sustainable-smart.svg",
-              imageAlt: "Sustainable and smart water solution",
+              image: "/images/features/sustainable-smart.webp",
+              imageAlt: "Lush forest and river - sustainable smart choice",
               title: "SUSTAINABLE & SMARTER",
               description: "No plastic waste, no shipping water across the planet, no water table degradation.",
               delay: 0.9
