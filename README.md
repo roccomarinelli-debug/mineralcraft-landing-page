@@ -165,9 +165,35 @@ public/
 5. Push: `git push` (auto-deploys in 2-4 minutes)
 
 #### **Image References in Code:**
-- **Hero Image**: Line 413 in `src/App.tsx` → `/images/hero/hero-product.webp`
-- **Feature Icons**: Lucide React icons (no file references)
+- **Hero Image**: Line 586-588 in `src/App.tsx` → `/images/hero/hero-product.webp`
+- **Feature Images**: Lines 536-562 in `src/App.tsx` → `/images/features/[filename].svg` or `.webp`
 - **Background Images**: CSS variables in `src/App.css`
+
+#### **Feature Images Upload Instructions:**
+Replace placeholder images with your final designs:
+
+1. **Exceptional Taste**: `/public/images/features/exceptional-taste.svg`
+   - **Current placeholder**: 🥤 icon with "TASTE" label
+   - **Recommended**: High-quality taste/premium water visual
+
+2. **More Than Bubbles**: `/public/images/features/more-than-bubbles.svg`
+   - **Current placeholder**: 💊 icon with "MINERALS" label  
+   - **Recommended**: Minerals/health benefits visual
+
+3. **Luxurious Ritual**: `/public/images/features/luxurious-ritual.svg`
+   - **Current placeholder**: ✨ icon with "LUXURY" label
+   - **Recommended**: Luxury/premium experience visual
+
+4. **Sustainable & Smart**: `/public/images/features/sustainable-smart.svg`
+   - **Current placeholder**: 🌱 icon with "SUSTAINABLE" label
+   - **Recommended**: Sustainability/eco-friendly visual
+
+**Image Specifications:**
+- **Format**: SVG (preferred) or WebP/PNG
+- **Size**: 80x80px (optimized for retina displays)
+- **Style**: Should match brand colors (#494B33, #CEB49F, #C27061, #E0D0D0, #35271C)
+- **Background**: Transparent or matching brand palette
+- **File Size**: <50KB each for optimal loading
 
 ## 📋 Project Governance
 

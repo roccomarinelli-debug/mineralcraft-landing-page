@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Droplets, Sparkles, Leaf, Heart, ShoppingCart, Palette, ChevronDown, Plus } from 'lucide-react';
+import { Heart, ShoppingCart, Palette, ChevronDown, Plus } from 'lucide-react';
 import './App.css';
 
 // Analytics Tracking System
@@ -533,25 +533,29 @@ const App: React.FC = () => {
         <div className="features-grid">
           {[
             {
-              icon: <Droplets />,
+              image: "/images/features/exceptional-taste.svg",
+              imageAlt: "Exceptional taste feature - premium water quality",
               title: "EXCEPTIONAL TASTE",
               description: "Inspired by nature's most renowned mineral springs, savour the crisp, refreshing taste of premium water crafted at home.",
               delay: 0.3
             },
             {
-              icon: <Heart />,
+              image: "/images/features/more-than-bubbles.svg",
+              imageAlt: "More than bubbles - essential minerals",
               title: "MUCH MORE THAN BUBBLES",
               description: "Infused with essential minerals like calcium, magnesium and potassium - supporting hydration, bone health and sustained energy.",
               delay: 0.5
             },
             {
-              icon: <Sparkles />,
+              image: "/images/features/luxurious-ritual.svg",
+              imageAlt: "Luxurious hydration ritual experience",
               title: "A LUXURIOUS HYDRATION RITUAL",
               description: "Bring your water to life and bathe every cell in your body with mineral-rich bubbles.",
               delay: 0.7
             },
             {
-              icon: <Leaf />,
+              image: "/images/features/sustainable-smart.svg",
+              imageAlt: "Sustainable and smart water solution",
               title: "SUSTAINABLE & SMARTER",
               description: "No plastic waste, no shipping water across the planet, no water table degradation.",
               delay: 0.9
@@ -575,10 +579,14 @@ const App: React.FC = () => {
             >
               <motion.div 
                 className="feature-icon"
-                whileHover={{ scale: 1.2, rotate: 360 }}
-                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ duration: 0.3 }}
               >
-                {feature.icon}
+                <img 
+                  src={feature.image} 
+                  alt={feature.imageAlt}
+                  className="feature-image"
+                />
               </motion.div>
               <h3>{feature.title}</h3>
               <p>{feature.description}</p>
