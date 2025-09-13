@@ -1,8 +1,75 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Droplets, Sparkles, Leaf, Heart, ShoppingCart, Palette, ChevronDown, Plus, Minus } from 'lucide-react';
+import { Droplets, Sparkles, Leaf, Heart, ShoppingCart, Palette, ChevronDown, Plus } from 'lucide-react';
 import './App.css';
+
+// Analytics Tracking System
+interface TrackingEvent {
+  action: string;
+  category: string;
+  label: string;
+  timestamp: number;
+  userId?: string;
+  sessionId: string;
+}
+
+const trackEvent = (action: string, category: string, label: string) => {
+  const event: TrackingEvent = {
+    action,
+    category,
+    label,
+    timestamp: Date.now(),
+    sessionId: getSessionId()
+  };
+
+  // Console log for development
+  console.log('🔍 Analytics Event:', event);
+  
+  // Send to Google Analytics 4 (if configured)
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', action, {
+      event_category: category,
+      event_label: label,
+      custom_parameter_1: 'mineralcraft_landing'
+    });
+  }
+
+  // Send to Facebook Pixel (if configured)
+  if (typeof window !== 'undefined' && (window as any).fbq) {
+    (window as any).fbq('track', action, {
+      content_category: category,
+      content_name: label
+    });
+  }
+
+  // Store locally for debugging and backup tracking
+  const events = JSON.parse(localStorage.getItem('mineralcraft_events') || '[]');
+  events.push(event);
+  // Keep only last 100 events
+  if (events.length > 100) events.splice(0, events.length - 100);
+  localStorage.setItem('mineralcraft_events', JSON.stringify(events));
+};
+
+const getSessionId = (): string => {
+  let sessionId = sessionStorage.getItem('mineralcraft_session_id');
+  if (!sessionId) {
+    sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    sessionStorage.setItem('mineralcraft_session_id', sessionId);
+  }
+  return sessionId;
+};
+
+const trackPageView = (pageName: string) => {
+  trackEvent('page_view', 'Navigation', pageName);
+  
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('config', 'GA_MEASUREMENT_ID', {
+      page_title: pageName,
+      page_location: window.location.href
+    });
+  }
+};
 
 const App: React.FC = () => {
   const { scrollYProgress } = useScroll();
@@ -17,40 +84,6 @@ const App: React.FC = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [faqRef, faqInView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [stepsRef, stepsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
-  const [calcRef, calcInView] = useInView({ triggerOnce: true, threshold: 0.2 });
-  
-  // Calculator state
-  const [monthlyLitres, setMonthlyLitres] = useState(20);
-  const [waterType, setWaterType] = useState<'sanpell' | 'perrier'>('sanpell');
-
-  // Calculator logic
-  const waterPrices = { sanpell: 5.50, perrier: 4.00 };
-  const mineralcraftPrice = 39.00;
-  const mineralcraftLitres = 25;
-  
-  const calculations = useMemo(() => {
-    const monthlySpendingOld = monthlyLitres * waterPrices[waterType];
-    const tinsNeeded = Math.ceil(monthlyLitres / mineralcraftLitres);
-    const monthlySpendingNew = tinsNeeded * mineralcraftPrice;
-    const monthlySavings = monthlySpendingOld - monthlySpendingNew;
-    const yearlySavings = monthlySavings * 12;
-    
-    // CO2 calculations (approx 0.5kg CO2 per plastic bottle = 0.5L, so 1kg CO2 per litre)
-    const monthlyBottles = monthlyLitres * 2; // assuming 0.5L bottles
-    const monthlyCO2Saved = monthlyLitres * 1.0; // 1kg CO2 per litre approximation
-    const yearlyCO2Saved = monthlyCO2Saved * 12;
-    
-    return {
-      monthlySpendingOld,
-      monthlySpendingNew,
-      monthlySavings,
-      yearlySavings,
-      monthlyBottles,
-      monthlyCO2Saved,
-      yearlyCO2Saved,
-      tinsNeeded
-    };
-  }, [monthlyLitres, waterType]);
   
   const faqData = useMemo(() => [
     {
@@ -221,6 +254,34 @@ const App: React.FC = () => {
     }
   ], []);
 
+  // Track initial page load
+  useEffect(() => {
+    trackPageView('MINERALCRAFT Landing Page');
+    trackEvent('Page_Load', 'Landing', 'Initial Visit');
+  }, []);
+
+  // Track section visibility
+  useEffect(() => {
+    if (heroInView) trackEvent('Section_View', 'Visibility', 'Hero Section');
+  }, [heroInView]);
+
+  useEffect(() => {
+    if (featuresInView) trackEvent('Section_View', 'Visibility', 'Features Section');
+  }, [featuresInView]);
+
+  useEffect(() => {
+    if (stepsInView) trackEvent('Section_View', 'Visibility', '2-Step Process Section');
+  }, [stepsInView]);
+
+
+  useEffect(() => {
+    if (ctaInView) trackEvent('Section_View', 'Visibility', 'Final CTA Section');
+  }, [ctaInView]);
+
+  useEffect(() => {
+    if (faqInView) trackEvent('Section_View', 'Visibility', 'FAQ Section');
+  }, [faqInView]);
+
   useEffect(() => {
     const theme = colorThemes[currentTheme];
     document.documentElement.style.setProperty('--primary-dark', theme.primary);
@@ -264,7 +325,10 @@ const App: React.FC = () => {
       >
         <motion.button
           className="palette-button"
-          onClick={() => setDropdownOpen(!dropdownOpen)}
+          onClick={() => {
+            setDropdownOpen(!dropdownOpen);
+            trackEvent('Theme_Selector_Open', 'Customization', 'Color Palette Opened');
+          }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -295,6 +359,7 @@ const App: React.FC = () => {
               onClick={() => {
                 setCurrentTheme(index);
                 setDropdownOpen(false);
+                trackEvent('Theme_Change', 'Customization', theme.name);
               }}
               whileHover={{ scale: 1.02, x: 5 }}
               whileTap={{ scale: 0.98 }}
@@ -363,6 +428,8 @@ const App: React.FC = () => {
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+          onClick={() => trackEvent('Promo_Banner_Click', 'Promotion', 'LAUNCH Code Banner')}
+          style={{ cursor: 'pointer' }}
         >
           <div className="promo-text-container">
             <div className="promo-text">
@@ -390,17 +457,19 @@ const App: React.FC = () => {
             Elevate the taste of your Sodastream water to the mineral profile of the Italian Alps.
           </motion.p>
           
-          <motion.button
+          <motion.a
+            href="https://mineralcraft.co/products/italian-alps-1"
             className="cta-button primary"
             initial={{ scale: 0 }}
             animate={{ scale: heroInView ? 1 : 0 }}
             transition={{ delay: 1, duration: 0.6, type: "spring", bounce: 0.3 }}
             whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(196, 112, 97, 0.4)" }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => trackEvent('CTA_Click', 'Hero', 'Try It Now')}
           >
             <ShoppingCart className="button-icon" />
             TRY IT NOW
-          </motion.button>
+          </motion.a>
         </div>
         
         <motion.div
@@ -410,7 +479,7 @@ const App: React.FC = () => {
           transition={{ delay: 0.4, duration: 1.2, ease: "easeOut" }}
         >
           <motion.img
-            src="/images/hero-product.webp"
+            src="/images/hero/hero-product.webp"
             alt="MINERALCRAFT Premium Sparkling Water - Transform Your Bubbles"
             className="hero-product-image"
             whileHover={{ scale: 1.05, rotateY: 2 }}
@@ -573,163 +642,6 @@ const App: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* Savings Calculator Section */}
-      <motion.section 
-        ref={calcRef}
-        className="calculator-section"
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: calcInView ? 1 : 0, y: calcInView ? 0 : 100 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-      >
-        <motion.h2
-          className="calculator-header"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: calcInView ? 1 : 0, y: calcInView ? 0 : 50 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-        >
-          Calculate Your Savings
-        </motion.h2>
-        
-        <motion.p
-          className="calculator-subtitle"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: calcInView ? 1 : 0, y: calcInView ? 0 : 30 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        >
-          See how much money and CO₂ you'll save by switching to MINERALCRAFT
-        </motion.p>
-        
-        <div className="calculator-container">
-          <motion.div 
-            className="calculator-inputs"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: calcInView ? 1 : 0, x: calcInView ? 0 : -50 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            <div className="input-group">
-              <label className="input-label">Monthly mineral water consumption</label>
-              <div className="slider-container">
-                <motion.div
-                  className="slider-track"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: calcInView ? 1 : 0 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
-                >
-                  <motion.div 
-                    className="slider-fill"
-                    style={{ width: `${(monthlyLitres / 100) * 100}%` }}
-                  />
-                  <motion.div
-                    className="slider-thumb"
-                    style={{ left: `${(monthlyLitres / 100) * 100}%` }}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    onDrag={(_, info) => {
-                      const container = info.point.x;
-                      const containerWidth = 300; // Approximate slider width
-                      const percentage = Math.max(0, Math.min(1, container / containerWidth));
-                      setMonthlyLitres(Math.round(percentage * 100) || 1);
-                    }}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                  />
-                </motion.div>
-                <input
-                  type="range"
-                  min="1"
-                  max="100"
-                  value={monthlyLitres}
-                  onChange={(e) => setMonthlyLitres(Number(e.target.value))}
-                  className="slider-input"
-                />
-                <div className="slider-value">{monthlyLitres} litres/month</div>
-              </div>
-            </div>
-            
-            <div className="input-group">
-              <label className="input-label">Current brand preference</label>
-              <div className="brand-selector">
-                <motion.button
-                  className={`brand-option ${waterType === 'sanpell' ? 'active' : ''}`}
-                  onClick={() => setWaterType('sanpell')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <span className="brand-name">San Pellegrino</span>
-                  <span className="brand-price">$5.50/L</span>
-                </motion.button>
-                <motion.button
-                  className={`brand-option ${waterType === 'perrier' ? 'active' : ''}`}
-                  onClick={() => setWaterType('perrier')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <span className="brand-name">Perrier</span>
-                  <span className="brand-price">$4.00/L</span>
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-          
-          <motion.div 
-            className="calculator-results"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: calcInView ? 1 : 0, x: calcInView ? 0 : 50 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-          >
-            <div className="results-grid">
-              <motion.div 
-                className="result-card savings-card"
-                whileHover={{ scale: 1.05, y: -5 }}
-              >
-                <div className="result-icon">💰</div>
-                <div className="result-value">
-                  ${calculations.monthlySavings > 0 ? calculations.monthlySavings.toFixed(0) : 0}
-                </div>
-                <div className="result-label">Monthly Savings</div>
-                <div className="result-sublabel">
-                  ${calculations.yearlySavings > 0 ? calculations.yearlySavings.toFixed(0) : 0}/year
-                </div>
-              </motion.div>
-              
-              <motion.div 
-                className="result-card co2-card"
-                whileHover={{ scale: 1.05, y: -5 }}
-              >
-                <div className="result-icon">🌱</div>
-                <div className="result-value">{calculations.monthlyCO2Saved.toFixed(1)}kg</div>
-                <div className="result-label">CO₂ Saved Monthly</div>
-                <div className="result-sublabel">
-                  {calculations.monthlyBottles} bottles avoided
-                </div>
-              </motion.div>
-              
-              <motion.div 
-                className="result-card mineralcraft-card"
-                whileHover={{ scale: 1.05, y: -5 }}
-              >
-                <div className="result-icon">🏔️</div>
-                <div className="result-value">{calculations.tinsNeeded}</div>
-                <div className="result-label">Tins Needed</div>
-                <div className="result-sublabel">
-                  Makes {monthlyLitres}L premium water
-                </div>
-              </motion.div>
-            </div>
-            
-            <motion.div 
-              className="calculator-cta"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: calcInView ? 1 : 0, y: calcInView ? 0 : 20 }}
-              transition={{ delay: 1, duration: 0.6 }}
-            >
-              <p className="cta-text">
-                Start saving ${calculations.monthlySavings > 0 ? calculations.monthlySavings.toFixed(0) : 0} per month
-              </p>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
 
       {/* Final CTA Section */}
       <motion.section 
@@ -771,7 +683,8 @@ const App: React.FC = () => {
             <span>LOVE IT OR MONEY BACK</span>
           </motion.div>
           
-          <motion.button
+          <motion.a
+            href="https://mineralcraft.co/products/italian-alps-1"
             className="cta-button secondary"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: ctaInView ? 0 : 50, opacity: ctaInView ? 1 : 0 }}
@@ -781,10 +694,11 @@ const App: React.FC = () => {
               boxShadow: "0 15px 35px rgba(206, 180, 159, 0.4)" 
             }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => trackEvent('CTA_Click', 'Final_CTA', 'Buy Now')}
           >
             <ShoppingCart className="button-icon" />
             BUY NOW
-          </motion.button>
+          </motion.a>
         </motion.div>
       </motion.section>
 
@@ -815,7 +729,11 @@ const App: React.FC = () => {
             >
               <motion.button
                 className="faq-question"
-                onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                onClick={() => {
+                  const isOpening = openFaqIndex !== index;
+                  setOpenFaqIndex(openFaqIndex === index ? null : index);
+                  trackEvent('FAQ_Toggle', 'FAQ', `${faq.question} - ${isOpening ? 'Opened' : 'Closed'}`);
+                }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
