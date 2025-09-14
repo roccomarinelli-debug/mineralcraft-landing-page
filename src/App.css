@@ -271,7 +271,7 @@ body {
 .hero-product-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   border-radius: 20px;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
