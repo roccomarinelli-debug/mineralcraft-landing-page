@@ -84,6 +84,7 @@ const App: React.FC = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [faqRef, faqInView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [stepsRef, stepsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [mineralsRef, mineralsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
   
   const faqData = useMemo(() => [
     {
@@ -204,7 +205,7 @@ const App: React.FC = () => {
       secondary: "#D0C9C0",
       accent: "#494B33",
       cream: "#A97C50",
-      dark: "#F4F5F0",
+      dark: "#2C3E3A",
       tertiary: "#9BC5BC",
       useGradients: false
     },
@@ -251,6 +252,18 @@ const App: React.FC = () => {
       dark: "#A47864",     // Mocha Mousse
       tertiary: "#B8A082", // Warm Taupe (tertiary for CTA)
       useGradients: false
+    },
+    
+    // MONOCHROME THEME
+    {
+      name: "Monochrome",
+      primary: "#1a1a1a",     // Near black
+      secondary: "#f5f5f5",   // Light gray
+      accent: "#666666",      // Medium gray
+      cream: "#e0e0e0",       // Light gray
+      dark: "#000000",        // Pure black
+      tertiary: "#999999",    // Lighter gray for accents
+      useGradients: false
     }
   ], []);
 
@@ -272,6 +285,10 @@ const App: React.FC = () => {
   useEffect(() => {
     if (stepsInView) trackEvent('Section_View', 'Visibility', '2-Step Process Section');
   }, [stepsInView]);
+
+  useEffect(() => {
+    if (mineralsInView) trackEvent('Section_View', 'Visibility', 'Minerals Benefits Section');
+  }, [mineralsInView]);
 
 
   useEffect(() => {
@@ -428,7 +445,10 @@ const App: React.FC = () => {
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-          onClick={() => trackEvent('Promo_Banner_Click', 'Promotion', 'LAUNCH Code Banner')}
+          onClick={() => {
+            trackEvent('Promo_Banner_Click', 'Promotion', 'LAUNCH Code Banner');
+            window.open('https://shop.app/checkout/82707906868/cn/hWN1OYjQsyU7yI5py65ncD8a/shoppay?_cs=3.AMPS&authorization=cGVFWXlJNW42TGpDMCtueWxxME9YMy9lbCt0V252a3h1Mkd2UmdHNDMzMEY1RGlEbVFWYm80cUpPWnY2VVFPNVllT2l4dlR3TW5PQ1MveUlIc1VGbkhpelVTZ3hFRk1hRUFtODhTSUkxUitoWFlubjlMekdZTUR6eGtoTUM0Y2ZaTkUyVEw5TGpnUlNOVExFaXdaVFgzRWZNMU51dzZORDJ0YWdXaTZGKzZBQnNvbzZFVlBUSkpXcEJuYjRZZnBTLS01OXdVK0dPVzl0OFQ3eDNvelJuWDNRPT0%3D--03538a3dd38f0f0e9f688ac50cc8360c171d62e5&discount_code=LAUNCH&preview_theme_id=167526138164&redirect_source=checkout_automatic_redirect&tracking_unique=1d7c29f8-1a25-4bec-921e-b76a5725034e&tracking_visit=0423dd0f-2e03-44a9-bea6-f29c2c9009c', '_blank', 'noopener,noreferrer');
+          }}
           style={{ cursor: 'pointer' }}
         >
           <div className="promo-text-container">
@@ -445,7 +465,7 @@ const App: React.FC = () => {
             animate={{ y: heroInView ? 0 : 100, opacity: heroInView ? 1 : 0 }}
             transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
           >
-            TRANSFORM YOUR BUBBLES
+            ELEVATE YOUR WATER
           </motion.h1>
           
           <motion.p
@@ -454,7 +474,7 @@ const App: React.FC = () => {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="hero-subtitle"
           >
-            Elevate the taste of your Sodastream water to the mineral profile of the Italian Alps.
+            Mineralcraft's Italian Alps blend transforms your Sodastream bubbly water into the most delicious, crisp tasting mineral water.
           </motion.p>
           
           <motion.a
@@ -527,27 +547,27 @@ const App: React.FC = () => {
           animate={{ opacity: featuresInView ? 1 : 0, y: featuresInView ? 0 : 50 }}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          Don't buy expensive mineral water, craft your own delicious blend at home.
+          Why craft your own mineral water at home?
         </motion.h2>
         
         <div className="features-grid">
           {[
             {
-              image: "/images/features/exceptional-taste.webp",
+              image: "/images/features/1.png",
               imageAlt: "Pristine mountain lake - exceptional water taste",
               title: "EXCEPTIONAL TASTE",
               description: "Inspired by nature's most renowned mineral springs, savour the crisp, refreshing taste of premium water crafted at home.",
               delay: 0.3
             },
             {
-              image: "/images/features/more-than-bubbles.webp",
+              image: "/images/features/2.png",
               imageAlt: "Majestic mountain peaks - essential minerals",
               title: "MUCH MORE THAN BUBBLES",
               description: "Infused with essential minerals like calcium, magnesium and potassium - supporting hydration, bone health and sustained energy.",
               delay: 0.5
             },
             {
-              image: "/images/features/luxurious-ritual.webp",
+              image: "/images/features/3.png",
               imageAlt: "Misty mountain landscape - luxurious hydration ritual",
               title: "A LUXURIOUS HYDRATION RITUAL",
               description: "Bring your water to life and bathe every cell in your body with mineral-rich bubbles.",
@@ -593,6 +613,30 @@ const App: React.FC = () => {
             </motion.div>
           ))}
         </div>
+        
+        <motion.div 
+          className="features-cta"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ 
+            opacity: featuresInView ? 1 : 0, 
+            y: featuresInView ? 0 : 30 
+          }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+        >
+          <motion.a
+            href="https://mineralcraft.co/products/italian-alps-1"
+            className="cta-button primary"
+            whileHover={{ 
+              scale: 1.05,
+              boxShadow: "0 20px 40px rgba(73, 75, 51, 0.3)" 
+            }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => trackEvent('CTA_Click', 'Features', 'Buy Now')}
+          >
+            <ShoppingCart className="button-icon" />
+            BUY NOW
+          </motion.a>
+        </motion.div>
       </motion.section>
 
       {/* 2-Step Process Section */}
@@ -628,6 +672,22 @@ const App: React.FC = () => {
               <h3 className="step-title">Step 2</h3>
               <p className="step-description">Carbonate to dissolve the minerals and gently mix the flavours.</p>
             </div>
+            
+            <motion.a
+              href="https://mineralcraft.co/pages/how-it-works"
+              className="cta-button tertiary learn-more-btn"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: stepsInView ? 0 : 20, opacity: stepsInView ? 1 : 0 }}
+              transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)" 
+              }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => trackEvent('CTA_Click', 'Steps_Section', 'Learn More')}
+            >
+              LEARN MORE
+            </motion.a>
           </motion.div>
           
           <motion.div 
@@ -637,12 +697,13 @@ const App: React.FC = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             <div className="video-container">
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              <video
+                src="https://mineralcraft.co/cdn/shop/videos/c/vp/4e7a153234274ac4819f37d0dd83937e/4e7a153234274ac4819f37d0dd83937e.HD-1080p-7.2Mbps-54297024.mp4?v=0"
                 title="SodaStream Mineralcraft Process"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
+                controls
+                muted
+                autoPlay
+                loop
                 className="process-video"
               />
             </div>
@@ -659,55 +720,134 @@ const App: React.FC = () => {
         animate={{ opacity: ctaInView ? 1 : 0 }}
         transition={{ duration: 1 }}
       >
-        <motion.div 
-          className="cta-content"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: ctaInView ? 1 : 0.8, opacity: ctaInView ? 1 : 0 }}
-          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-        >
-          <motion.h2
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: ctaInView ? 0 : 30, opacity: ctaInView ? 1 : 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            MAKES OVER 25 LITRES
-          </motion.h2>
-          
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: ctaInView ? 0 : 20, opacity: ctaInView ? 1 : 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            Add one scoop and carbonate for premium sparkling water at home.
-          </motion.p>
-          
+        <div className="key-claims-grid">
           <motion.div 
-            className="guarantee"
-            initial={{ scale: 0 }}
-            animate={{ scale: ctaInView ? 1 : 0 }}
-            transition={{ delay: 0.7, duration: 0.6, type: "spring", bounce: 0.3 }}
+            className="key-claim"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: ctaInView ? 1 : 0, x: ctaInView ? 0 : -50 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
           >
-            <Heart className="guarantee-icon" />
-            <span>LOVE IT OR MONEY BACK</span>
+            <motion.h2
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: ctaInView ? 0 : 20, opacity: ctaInView ? 1 : 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              MAKES OVER 25 LITRES
+            </motion.h2>
+            <motion.p
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: ctaInView ? 0 : 10, opacity: ctaInView ? 1 : 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
+              Just add a measured scoop to water and carbonate.
+            </motion.p>
           </motion.div>
-          
-          <motion.a
-            href="https://mineralcraft.co/products/italian-alps-1"
-            className="cta-button secondary"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: ctaInView ? 0 : 50, opacity: ctaInView ? 1 : 0 }}
-            transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
-            whileHover={{ 
-              scale: 1.05, 
-              boxShadow: "0 15px 35px rgba(206, 180, 159, 0.4)" 
-            }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => trackEvent('CTA_Click', 'Final_CTA', 'Buy Now')}
+
+          <motion.div 
+            className="key-claim"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: ctaInView ? 1 : 0, x: ctaInView ? 0 : 50 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
           >
-            <ShoppingCart className="button-icon" />
-            BUY NOW
-          </motion.a>
-        </motion.div>
+            <motion.h2
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: ctaInView ? 0 : 20, opacity: ctaInView ? 1 : 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
+              LOVE IT OR YOUR MONEY BACK
+            </motion.h2>
+            <motion.p
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: ctaInView ? 0 : 10, opacity: ctaInView ? 1 : 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+            >
+              We created this product for maximum refreshment. If you're not happy we'll refund you - no worries.
+            </motion.p>
+          </motion.div>
+        </div>
+
+        <motion.a
+          href="https://mineralcraft.co/products/italian-alps-1"
+          className="cta-button secondary"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: ctaInView ? 0 : 50, opacity: ctaInView ? 1 : 0 }}
+          transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
+          whileHover={{ 
+            scale: 1.05, 
+            boxShadow: "0 15px 35px rgba(206, 180, 159, 0.4)" 
+          }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => trackEvent('CTA_Click', 'Final_CTA', 'Buy Now')}
+        >
+          <ShoppingCart className="button-icon" />
+          BUY NOW
+        </motion.a>
+      </motion.section>
+
+      {/* Minerals Benefits Section */}
+      <motion.section 
+        ref={mineralsRef}
+        className="minerals-section"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: mineralsInView ? 1 : 0, y: mineralsInView ? 0 : 100 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        <motion.h2
+          className="minerals-header"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: mineralsInView ? 1 : 0, y: mineralsInView ? 0 : 50 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+        >
+          The benefits of minerals in your water
+        </motion.h2>
+        
+        <div className="minerals-grid">
+          {[
+            {
+              name: "Calcium",
+              benefits: "Supports bone strength - muscle function - heart health.",
+              delay: 0.3
+            },
+            {
+              name: "Potassium", 
+              benefits: "Enhances hydration - energy - athletic performance.",
+              delay: 0.4
+            },
+            {
+              name: "Magnesium",
+              benefits: "Aids digestion - circulation - sleep - cellular function.",
+              delay: 0.5
+            },
+            {
+              name: "Sodium",
+              benefits: "For fluid balance - nerve and muscle function.",
+              delay: 0.6
+            }
+          ].map((mineral, index) => (
+            <motion.div
+              key={index}
+              className="mineral-card"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ 
+                opacity: mineralsInView ? 1 : 0, 
+                y: mineralsInView ? 0 : 30
+              }}
+              transition={{ delay: mineral.delay, duration: 0.8, ease: "easeOut" }}
+            >
+              <h3 className="mineral-name">{mineral.name}</h3>
+              <p className="mineral-benefits">{mineral.benefits}</p>
+            </motion.div>
+          ))}
+        </div>
+        
+        <motion.p
+          className="minerals-summary"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: mineralsInView ? 1 : 0, y: mineralsInView ? 0 : 20 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+        >
+          Mineralcraft delivers the essential electrolytes and trace minerals your body craves, supporting hydration at home, on the go, or during peak performance.
+        </motion.p>
       </motion.section>
 
       {/* FAQ Section */}

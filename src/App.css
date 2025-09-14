@@ -350,6 +350,21 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
+.cta-button.tertiary {
+  background: var(--accent-coral);
+  color: var(--white);
+  box-shadow: var(--shadow-soft);
+  border: 2px solid var(--accent-coral);
+}
+
+.learn-more-btn {
+  margin-top: 2rem;
+  padding: 0.8rem 2rem;
+  font-size: 0.95rem;
+  border-radius: 25px;
+  align-self: flex-start;
+}
+
 .button-icon {
   width: 20px;
   height: 20px;
@@ -364,7 +379,7 @@ body {
 
 .features h2 {
   font-family: 'Playfair Display SC', serif;
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
   font-weight: 700;
   text-align: center;
   margin-bottom: 4rem;
@@ -385,7 +400,7 @@ body {
 
 .feature-card {
   background: var(--white);
-  padding: 0 0 2.5rem 0;
+  padding: 0;
   border-radius: 25px;
   text-align: center;
   box-shadow: var(--shadow-soft);
@@ -414,16 +429,17 @@ body {
 
 .feature-icon {
   width: 100%;
-  height: 200px;
-  margin: 0 0 1.5rem 0;
+  height: 160px;
+  margin: 0;
   background: transparent;
-  border-radius: 0;
+  border-radius: 25px 25px 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--white);
   box-shadow: none;
   position: relative;
+  overflow: hidden;
 }
 
 .feature-icon svg {
@@ -444,7 +460,7 @@ body {
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--primary-dark);
-  margin: 0 2rem 1rem 2rem;
+  margin: 1.5rem 2rem 1rem 2rem;
   letter-spacing: 0.5px;
 }
 
@@ -453,7 +469,12 @@ body {
   color: var(--dark-brown);
   opacity: 0.85;
   line-height: 1.7;
-  margin: 0 2rem;
+  margin: 0 2rem 2rem 2rem;
+}
+
+.features-cta {
+  margin-top: 3rem;
+  text-align: center;
 }
 
 /* Final CTA Section */
@@ -524,6 +545,63 @@ body {
   width: 18px;
   height: 18px;
   color: var(--accent-coral);
+}
+
+/* Key Claims Grid */
+.key-claims-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto 3rem auto;
+  color: var(--white);
+  position: relative;
+  z-index: 2;
+}
+
+.key-claim {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.key-claim:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.key-claim h2 {
+  font-family: 'Playfair Display SC', serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary-light);
+  line-height: 1.2;
+}
+
+.key-claim p {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  opacity: 0.95;
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .key-claims-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+  
+  .key-claim {
+    padding: 2rem;
+  }
 }
 
 /* 2-Step Process Section */
@@ -602,8 +680,8 @@ body {
 .video-container {
   position: relative;
   width: 100%;
-  max-width: 500px;
-  aspect-ratio: 16/9;
+  max-width: 400px;
+  aspect-ratio: 9/16;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: var(--shadow-strong);
@@ -868,6 +946,97 @@ body {
   margin: 0;
 }
 
+/* Minerals Benefits Section */
+.minerals-section {
+  padding: 5rem 1rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f6f4 100%);
+  position: relative;
+}
+
+.minerals-header {
+  font-family: 'Playfair Display SC', serif;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 4rem;
+  color: var(--primary-dark);
+  line-height: 1.3;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.minerals-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto 3rem auto;
+}
+
+.mineral-card {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  border-left: 4px solid var(--accent-coral);
+  transition: all 0.3s ease;
+}
+
+.mineral-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-strong);
+}
+
+.mineral-name {
+  font-family: 'Playfair Display SC', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent-coral);
+  margin-bottom: 0.5rem;
+}
+
+.mineral-benefits {
+  font-size: 1rem;
+  color: var(--dark-brown);
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.minerals-summary {
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--dark-brown);
+  opacity: 0.9;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+@media (min-width: 640px) {
+  .minerals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .minerals-section {
+    padding: 6rem 4rem;
+  }
+  
+  .minerals-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  
+  .mineral-card {
+    padding: 2.5rem 1.5rem;
+  }
+}
+
 /* FAQ Section */
 .faq-section {
   padding: 5rem 1rem;
@@ -999,7 +1168,7 @@ body {
   }
   
   .feature-card {
-    padding: 3rem 2.5rem;
+    padding: 0;
   }
 }
 
@@ -1009,7 +1178,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 3rem 4rem;
-    min-height: 100vh;
+    min-height: 80vh;
   }
   
   .hero-content {
@@ -1035,7 +1204,7 @@ body {
   }
   
   .feature-card {
-    padding: 2.5rem 2rem;
+    padding: 0;
   }
   
   .steps-section {
@@ -1073,7 +1242,7 @@ body {
   }
   
   .feature-card {
-    padding: 3rem 2.5rem;
+    padding: 0;
   }
 }
 
