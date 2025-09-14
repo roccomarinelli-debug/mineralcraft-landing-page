@@ -1,0 +1,98 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Earth gradient -->
+    <radialGradient id="earth-gradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:0.8"/>
+      <stop offset="30%" style="stop-color:#4682B4;stop-opacity:0.9"/>
+      <stop offset="60%" style="stop-color:#228B22;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#006400;stop-opacity:0.9"/>
+    </radialGradient>
+    
+    <!-- Leaf gradient -->
+    <linearGradient id="leaf-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#90EE90;stop-opacity:0.9"/>
+      <stop offset="50%" style="stop-color:#32CD32;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#228B22;stop-opacity:0.7"/>
+    </linearGradient>
+    
+    <!-- Recycling arrow gradient -->
+    <linearGradient id="recycle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#CEB49F;stop-opacity:0.9"/>
+      <stop offset="50%" style="stop-color:#C27061;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#494B33;stop-opacity:0.7"/>
+    </linearGradient>
+    
+    <!-- Background -->
+    <radialGradient id="eco-bg" cx="50%" cy="50%" r="80%">
+      <stop offset="0%" style="stop-color:#E0D0D0;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#494B33;stop-opacity:0.15"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="80" height="80" rx="16" fill="url(#eco-bg)"/>
+  
+  <!-- Earth sphere -->
+  <circle cx="40" cy="40" r="18" fill="url(#earth-gradient)" opacity="0.9"/>
+  
+  <!-- Continents on earth -->
+  <path d="M30 35 C32 33, 35 34, 37 36 C39 35, 42 36, 44 38 C46 37, 48 39, 50 40 C48 42, 45 43, 42 42 C40 44, 37 43, 35 41 C33 42, 31 40, 30 38 Z" 
+        fill="#228B22" 
+        opacity="0.7"/>
+  <path d="M32 42 C34 44, 37 43, 39 45 C41 46, 43 45, 45 47 C43 48, 40 47, 38 46 C36 47, 34 46, 32 44 Z" 
+        fill="#006400" 
+        opacity="0.6"/>
+  
+  <!-- Eco leaves around earth -->
+  <path d="M20 25 C22 23, 25 24, 26 26 C25 28, 22 29, 20 27 Z" 
+        fill="url(#leaf-gradient)" 
+        opacity="0.8"/>
+  <path d="M54 30 C56 28, 59 29, 60 31 C59 33, 56 34, 54 32 Z" 
+        fill="url(#leaf-gradient)" 
+        opacity="0.7"/>
+  <path d="M25 55 C27 53, 30 54, 31 56 C30 58, 27 59, 25 57 Z" 
+        fill="url(#leaf-gradient)" 
+        opacity="0.8"/>
+  <path d="M55 50 C57 48, 60 49, 61 51 C60 53, 57 54, 55 52 Z" 
+        fill="url(#leaf-gradient)" 
+        opacity="0.6"/>
+  
+  <!-- Recycling arrows around earth -->
+  <g opacity="0.8">
+    <!-- Top arrow -->
+    <path d="M35 15 C32 12, 30 15, 32 18 L35 16 L38 18 C40 15, 38 12, 35 15 Z" 
+          fill="url(#recycle-gradient)"/>
+    
+    <!-- Right arrow -->
+    <path d="M65 35 C68 32, 65 30, 62 32 L64 35 L62 38 C65 40, 68 38, 65 35 Z" 
+          fill="url(#recycle-gradient)"/>
+    
+    <!-- Bottom arrow -->
+    <path d="M45 65 C48 68, 50 65, 48 62 L45 64 L42 62 C40 65, 42 68, 45 65 Z" 
+          fill="url(#recycle-gradient)"/>
+  </g>
+  
+  <!-- Smart technology elements -->
+  <!-- Wifi/signal waves -->
+  <path d="M15 40 Q20 35, 25 40" stroke="#CEB49F" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <path d="M55 40 Q60 35, 65 40" stroke="#CEB49F" stroke-width="1.5" fill="none" opacity="0.6"/>
+  
+  <!-- Digital dots -->
+  <circle cx="15" cy="20" r="1" fill="#C27061" opacity="0.7"/>
+  <circle cx="65" cy="20" r="1" fill="#C27061" opacity="0.7"/>
+  <circle cx="15" cy="60" r="1" fill="#C27061" opacity="0.7"/>
+  <circle cx="65" cy="60" r="1" fill="#C27061" opacity="0.7"/>
+  
+  <!-- Earth shine highlight -->
+  <ellipse cx="34" cy="34" rx="6" ry="4" fill="#ffffff" opacity="0.3" transform="rotate(-25 34 34)"/>
+  
+  <!-- Sustainability icons -->
+  <!-- Water drop -->
+  <path d="M68 45 C68 42, 70 40, 72 42 C74 40, 76 42, 76 45 C76 47, 74 49, 72 49 C70 49, 68 47, 68 45 Z" 
+        fill="#4682B4" 
+        opacity="0.6"/>
+  
+  <!-- Small plant -->
+  <path d="M10 50 L12 48 L14 50 L12 55 Z" fill="#228B22" opacity="0.7"/>
+  <path d="M12 52 C13 51, 15 52, 16 54" stroke="#32CD32" stroke-width="1" fill="none" opacity="0.6"/>
+</svg>

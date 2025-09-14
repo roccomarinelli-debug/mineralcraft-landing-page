@@ -1,0 +1,55 @@
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GA_MEASUREMENT_ID', {
+    page_title: 'MINERALCRAFT Landing Page',
+    page_location: window.location.href,
+    send_page_view: false // We handle this manually
+  });
+
+  // Enhanced Ecommerce Events
+  gtag('config', 'GA_MEASUREMENT_ID', {
+    custom_map: {
+      'custom_parameter_1': 'source_page',
+      'custom_parameter_2': 'theme_selection',
+      'custom_parameter_3': 'calculator_interaction'
+    }
+  });
+</script>
+
+<!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', 'FACEBOOK_PIXEL_ID');
+fbq('track', 'PageView');
+
+// Custom Events for Landing Page
+fbq('track', 'ViewContent', {
+  content_type: 'landing_page',
+  content_name: 'MINERALCRAFT Landing Page'
+});
+</script>
+
+<!-- Optional: Hotjar Heatmaps -->
+<script>
+(function(h,o,t,j,a,r){
+    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+    h._hjSettings={hjid:HOTJAR_ID,hjsv:6};
+    a=o.getElementsByTagName('head')[0];
+    r=o.createElement('script');r.async=1;
+    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+    a.appendChild(r);
+})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
