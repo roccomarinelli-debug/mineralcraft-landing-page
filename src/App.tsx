@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Heart, ShoppingCart, Palette, ChevronDown, Plus } from 'lucide-react';
+import { ShoppingCart, Palette, ChevronDown, Plus } from 'lucide-react';
 import './App.css';
 
 // Analytics Tracking System
