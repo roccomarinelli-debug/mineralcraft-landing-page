@@ -322,8 +322,6 @@ const App: React.FC = () => {
   const [featuresRef, featuresInView] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ctaRef, ctaInView] = useInView({ triggerOnce: true, threshold: 0.3 });
   
-  const [currentTheme, setCurrentTheme] = useState(0);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [faqRef, faqInView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [stepsRef, stepsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -356,159 +354,6 @@ const App: React.FC = () => {
     }
   ], []);
   
-  const colorThemes = useMemo(() => [
-    // GRADIENT VERSIONS (Current Style)
-    {
-      name: "Original Gradients",
-      primary: "#494B33",
-      secondary: "#CEB49F", 
-      accent: "#C27061",
-      cream: "#E0D0D0",
-      dark: "#35271C",
-      tertiary: "#8B7355",
-      useGradients: true
-    },
-    {
-      name: "Coral Focus Gradients",
-      primary: "#C27061",
-      secondary: "#494B33",
-      accent: "#CEB49F",
-      cream: "#E0D0D0",
-      dark: "#35271C",
-      tertiary: "#D49B8A",
-      useGradients: true
-    },
-    {
-      name: "Warm Cream Gradients",
-      primary: "#CEB49F",
-      secondary: "#C27061",
-      accent: "#494B33",
-      cream: "#E0D0D0",
-      dark: "#35271C",
-      tertiary: "#E5D5C7",
-      useGradients: true
-    },
-    
-    // SOLID COLOR VERSIONS
-    {
-      name: "Earth Green Solid",
-      primary: "#494B33",
-      secondary: "#CEB49F",
-      accent: "#C27061",
-      cream: "#E0D0D0",
-      dark: "#35271C",
-      tertiary: "#8B7355",
-      useGradients: false
-    },
-    {
-      name: "Coral Solid",
-      primary: "#C27061",
-      secondary: "#494B33",
-      accent: "#CEB49F",
-      cream: "#E0D0D0",
-      dark: "#35271C",
-      tertiary: "#D49B8A",
-      useGradients: false
-    },
-    {
-      name: "Cream Solid",
-      primary: "#CEB49F",
-      secondary: "#C27061",
-      accent: "#494B33",
-      cream: "#E0D0D0",
-      dark: "#35271C",
-      tertiary: "#E5D5C7",
-      useGradients: false
-    },
-    {
-      name: "Dark Brown Solid",
-      primary: "#35271C",
-      secondary: "#CEB49F",
-      accent: "#C27061",
-      cream: "#E0D0D0",
-      dark: "#494B33",
-      tertiary: "#6B4C38",
-      useGradients: false
-    },
-    {
-      name: "Light Cream Solid",
-      primary: "#E0D0D0",
-      secondary: "#494B33",
-      accent: "#C27061",
-      cream: "#CEB49F",
-      dark: "#35271C",
-      tertiary: "#F2ECE8",
-      useGradients: false
-    },
-    
-    // NEW Mineralcraft COLOR THEMES
-    {
-      name: "Alpine Heritage",
-      primary: "#68A097",
-      secondary: "#D0C9C0",
-      accent: "#494B33",
-      cream: "#A97C50",
-      dark: "#2C3E3A",
-      tertiary: "#9BC5BC",
-      useGradients: false
-    },
-    {
-      name: "Alpenglow",
-      primary: "#E6A5A1",
-      secondary: "#74819F",
-      accent: "#DDC490",
-      cream: "#3E4C66",
-      dark: "#FBFBFB",
-      tertiary: "#F0C5C2",
-      useGradients: false
-    },
-    {
-      name: "Mineral Flame",
-      primary: "#BDB2D8",
-      secondary: "#CD212A",
-      accent: "#FFD700",
-      cream: "#EEEEED",
-      dark: "#1C1C1C",
-      tertiary: "#D4C9E8",
-      useGradients: false
-    },
-    
-    // PANTONE 2025 FLORAL PATHWAYS
-    {
-      name: "Floral Pathways",
-      primary: "#7BA05B",  // High Meadow (Willow)
-      secondary: "#F5F1EB", // Dolomite Dust (Gardenia)
-      accent: "#6B9BD9",   // Glacial Tarn (Cornflower Blue)
-      cream: "#D4A574",    // Alpenglow Rose (Rose Tan)
-      dark: "#8B4F47",     // Alpine Loam (Mocha Mousse)
-      tertiary: "#E8A87C", // Peach Echo (tertiary for CTA)
-      useGradients: false
-    },
-    
-    // PANTONE 2025 REFINED HEX CODES
-    {
-      name: "Pantone Refined",
-      primary: "#9A8B4F",  // Willow
-      secondary: "#F5F3F0", // Gardenia (approximated)
-      accent: "#7391C8",   // Cornflower Blue
-      cream: "#D19C97",    // Rose Tan
-      dark: "#A47864",     // Mocha Mousse
-      tertiary: "#B8A082", // Warm Taupe (tertiary for CTA)
-      useGradients: false
-    },
-    
-    // MONOCHROME THEME
-    {
-      name: "Monochrome",
-      primary: "#1a1a1a",     // Near black
-      secondary: "#f5f5f5",   // Light gray
-      accent: "#666666",      // Medium gray
-      cream: "#e0e0e0",       // Light gray
-      dark: "#000000",        // Pure black
-      tertiary: "#999999",    // Lighter gray for accents
-      useGradients: false
-    }
-  ], []);
 
   // Track initial page load
   useEffect(() => {
@@ -542,37 +387,6 @@ const App: React.FC = () => {
     if (faqInView) trackEvent('Section_View', 'Visibility', 'FAQ Section');
   }, [faqInView]);
 
-  useEffect(() => {
-    const theme = colorThemes[currentTheme];
-    document.documentElement.style.setProperty('--primary-dark', theme.primary);
-    document.documentElement.style.setProperty('--primary-light', theme.secondary);
-    document.documentElement.style.setProperty('--accent-coral', theme.accent);
-    document.documentElement.style.setProperty('--accent-cream', theme.cream);
-    document.documentElement.style.setProperty('--dark-brown', theme.dark);
-    
-    // Set tertiary color for backgrounds and special elements
-    if (theme.tertiary) {
-      document.documentElement.style.setProperty('--tertiary-color', theme.tertiary);
-      // For Floral Pathways and Pantone Refined, use existing tertiary for CTA
-      if (theme.name === 'Floral Pathways' || theme.name === 'Pantone Refined') {
-        document.documentElement.style.setProperty('--cta-color', theme.tertiary);
-      } else {
-        document.documentElement.style.setProperty('--cta-color', theme.accent);
-      }
-    } else {
-      document.documentElement.style.setProperty('--tertiary-color', theme.accent);
-      document.documentElement.style.setProperty('--cta-color', theme.accent);
-    }
-    
-    // Set gradient mode
-    if (theme.useGradients) {
-      document.documentElement.style.setProperty('--gradient-primary', `linear-gradient(135deg, ${theme.primary} 0%, ${theme.dark} 100%)`);
-      document.documentElement.style.setProperty('--gradient-accent', `linear-gradient(135deg, ${theme.accent} 0%, ${theme.secondary} 100%)`);
-    } else {
-      document.documentElement.style.setProperty('--gradient-primary', theme.primary);
-      document.documentElement.style.setProperty('--gradient-accent', theme.accent);
-    }
-  }, [currentTheme, colorThemes]);
 
   return (
     <div className="app">
