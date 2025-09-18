@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ShoppingCart, Palette, ChevronDown, Plus, Utensils, Container } from 'lucide-react';
+import { ShoppingCart, Plus, Utensils, Container } from 'lucide-react';
 import './App.css';
 
 // Analytics Tracking System
@@ -576,71 +576,6 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      {/* Color Palette Switcher */}
-      <motion.div 
-        className="palette-switcher"
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-      >
-        <motion.button
-          className="palette-button"
-          onClick={() => {
-            setDropdownOpen(!dropdownOpen);
-            trackEvent('Theme_Selector_Open', 'Customization', 'Color Palette Opened');
-          }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Palette className="palette-icon" />
-          <span className="palette-text">Colors</span>
-          <motion.div
-            animate={{ rotate: dropdownOpen ? 180 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <ChevronDown className="chevron-icon" />
-          </motion.div>
-        </motion.button>
-        
-        <motion.div
-          className="palette-dropdown"
-          initial={false}
-          animate={{ 
-            opacity: dropdownOpen ? 1 : 0,
-            y: dropdownOpen ? 0 : -10,
-            pointerEvents: dropdownOpen ? 'auto' : 'none'
-          }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          {colorThemes.map((theme, index) => (
-            <motion.button
-              key={index}
-              className={`theme-option ${currentTheme === index ? 'active' : ''}`}
-              onClick={() => {
-                setCurrentTheme(index);
-                setDropdownOpen(false);
-                trackEvent('Theme_Change', 'Customization', theme.name);
-              }}
-              whileHover={{ scale: 1.02, x: 5 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <div className="theme-colors">
-                <div className="color-dot" style={{ backgroundColor: theme.primary }}></div>
-                <div className="color-dot" style={{ backgroundColor: theme.secondary }}></div>
-                <div className="color-dot" style={{ backgroundColor: theme.accent }}></div>
-              </div>
-              <span className="theme-name">{theme.name}</span>
-              {currentTheme === index && (
-                <motion.div 
-                  className="active-indicator"
-                  layoutId="activeTheme"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-            </motion.button>
-          ))}
-        </motion.div>
-      </motion.div>
 
       {/* Hero Section */}
       <motion.section 
