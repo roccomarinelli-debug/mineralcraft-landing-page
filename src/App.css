@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700;900&family=Josefin+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Josefin+Sans:wght@300;400;600;700;800;900&display=swap');
 
 :root {
-  --primary-dark: #494B33;
-  --primary-light: #CEB49F;
-  --accent-coral: #C27061;
-  --accent-cream: #E0D0D0;
-  --dark-brown: #35271C;
+  --primary-dark: #1a1a1a;
+  --primary-light: #e5e5e5;
+  --accent-coral: #666666;
+  --accent-cream: #f5f5f5;
+  --dark-brown: #000000;
   --white: #FFFFFF;
   --gradient-primary: linear-gradient(135deg, var(--primary-dark) 0%, var(--dark-brown) 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent-coral) 0%, var(--primary-light) 100%);
-  --shadow-soft: 0 10px 30px rgba(73, 75, 51, 0.1);
-  --shadow-strong: 0 20px 50px rgba(73, 75, 51, 0.2);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -21,10 +21,17 @@
 
 body {
   font-family: 'Josefin Sans', sans-serif;
+  font-weight: 400;
   line-height: 1.6;
   color: var(--dark-brown);
   overflow-x: hidden;
-  background: linear-gradient(180deg, #f8f6f4 0%, #ffffff 100%);
+  background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 100%);
+}
+
+/* Headers use Playfair Display */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
 .app {
@@ -35,7 +42,7 @@ body {
 /* Color Palette Switcher */
 .palette-switcher {
   position: fixed;
-  top: calc(40px + 1rem);
+  top: 2rem;
   right: 2rem;
   z-index: 1000;
 }
@@ -51,7 +58,7 @@ body {
   border-radius: 25px;
   color: var(--primary-dark);
   font-family: 'Josefin Sans', sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
   box-shadow: var(--shadow-soft);
@@ -69,7 +76,7 @@ body {
 }
 
 .palette-text {
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
 
@@ -97,7 +104,7 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   color: var(--primary-dark);
   font-family: 'Josefin Sans', sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -116,7 +123,7 @@ body {
 .theme-option.active {
   background: linear-gradient(135deg, var(--primary-light), var(--accent-cream));
   color: var(--primary-dark);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .theme-colors {
@@ -150,38 +157,63 @@ body {
   box-shadow: 0 0 8px var(--accent-coral);
 }
 
-/* Promotional Banner */
-.promo-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  background: var(--accent-coral);
-  z-index: 1001;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
+/* Hero Logo - Integrated into Hero Section */
+.hero-logo {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  z-index: 10;
 }
 
-.promo-text-container {
+.mineralcraft-logo {
+  height: 96px; /* 80px + 20% = 96px */
+  width: auto;
+  object-fit: contain;
+  display: block;
+  /* Remove filter to show original logo */
+}
+
+/* Promotional Text - Simple Scrolling */
+.promo-banner {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  left: auto;
+  width: calc(100% - 220px); /* Leave more space for larger logo */
+  height: 30px;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.promo-banner-content {
   width: 100%;
   height: 100%;
-  position: relative;
   display: flex;
   align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .promo-text {
-  color: var(--white);
+  color: var(--accent-coral);
   font-family: 'Josefin Sans', sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  animation: scroll-text 20s linear infinite;
-  padding-left: 100%;
+  animation: scroll-text-simple 15s linear infinite;
+  position: absolute;
 }
+
+@keyframes scroll-text-simple {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 
 @keyframes scroll-text {
   0% {
@@ -197,11 +229,12 @@ body {
   min-height: 75vh;
   display: flex;
   flex-direction: column;
+  position: relative;
   justify-content: center;
   align-items: center;
   position: relative;
   padding: 2rem 1rem;
-  padding-top: calc(2rem + 40px);
+  padding-top: calc(2rem + 60px);
   background: var(--gradient-primary);
   overflow: hidden;
 }
@@ -241,9 +274,9 @@ body {
 
 
 .hero h1 {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.1;
   margin-bottom: 1.5rem;
   color: var(--accent-coral);
@@ -373,12 +406,12 @@ body {
 /* Features Section */
 .features {
   padding: 5rem 1rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f6f4 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
   position: relative;
 }
 
 .features h2 {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(2.2rem, 6vw, 3.5rem);
   font-weight: 700;
   text-align: center;
@@ -403,12 +436,19 @@ body {
   padding: 0;
   border-radius: 25px;
   text-align: center;
-  box-shadow: var(--shadow-soft);
+  box-shadow:
+    0 10px 30px rgba(73, 75, 51, 0.15),
+    0 20px 60px rgba(73, 75, 51, 0.20),
+    0 40px 80px rgba(73, 75, 51, 0.10);
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border: 1px solid rgba(206, 180, 159, 0.2);
+  border: 2px solid rgba(206, 180, 159, 0.3);
   position: relative;
-  overflow: hidden;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  animation: floatCard 6s ease-in-out infinite;
+  animation-delay: calc(var(--card-index, 0) * 0.5s);
+  transform: translateY(-5px);
 }
 
 .feature-card::before {
@@ -440,6 +480,7 @@ body {
   box-shadow: none;
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
 }
 
 .feature-icon svg {
@@ -456,7 +497,7 @@ body {
 }
 
 .feature-card h3 {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--primary-dark);
@@ -512,7 +553,7 @@ body {
 }
 
 .final-cta h2 {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
   font-weight: 700;
   margin-bottom: 1rem;
@@ -533,7 +574,7 @@ body {
   background: rgba(255, 255, 255, 0.15);
   padding: 1rem 1.5rem;
   border-radius: 50px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.95rem;
   letter-spacing: 0.5px;
   margin-bottom: 2.5rem;
@@ -577,7 +618,7 @@ body {
 }
 
 .key-claim h2 {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
   margin-bottom: 1rem;
@@ -612,7 +653,7 @@ body {
 }
 
 .steps-header {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
   font-weight: 700;
   text-align: center;
@@ -647,6 +688,10 @@ body {
   box-shadow: var(--shadow-soft);
   border: 1px solid rgba(206, 180, 159, 0.1);
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
 .step-item:hover {
@@ -654,8 +699,31 @@ body {
   box-shadow: var(--shadow-strong);
 }
 
+.step-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--gradient-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  box-shadow:
+    0 4px 15px rgba(206, 180, 159, 0.3),
+    0 8px 25px rgba(206, 180, 159, 0.2);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.step-icon:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    0 6px 20px rgba(206, 180, 159, 0.4),
+    0 12px 35px rgba(206, 180, 159, 0.3);
+}
+
 .step-title {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--accent-coral);
@@ -698,12 +766,12 @@ body {
 /* Savings Calculator Section */
 .calculator-section {
   padding: 5rem 1rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f6f4 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
   position: relative;
 }
 
 .calculator-header {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
   font-weight: 700;
   text-align: center;
@@ -751,9 +819,9 @@ body {
 
 .input-label {
   display: block;
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--primary-dark);
   margin-bottom: 1.5rem;
   letter-spacing: 0.3px;
@@ -803,7 +871,7 @@ body {
 .slider-value {
   font-family: 'Josefin Sans', sans-serif;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent-coral);
   text-align: center;
 }
@@ -829,7 +897,7 @@ body {
 
 .brand-option:hover {
   border-color: var(--accent-coral);
-  background: rgba(196, 112, 97, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .brand-option.active {
@@ -840,7 +908,7 @@ body {
 
 .brand-name {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
@@ -895,7 +963,7 @@ body {
 }
 
 .result-value {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--accent-coral);
@@ -906,7 +974,7 @@ body {
 .result-label {
   font-family: 'Josefin Sans', sans-serif;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--primary-dark);
   margin-bottom: 0.25rem;
 }
@@ -919,11 +987,11 @@ body {
 }
 
 .savings-card {
-  background: linear-gradient(135deg, rgba(46, 125, 50, 0.05) 0%, rgba(76, 175, 80, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.08) 100%);
 }
 
 .co2-card {
-  background: linear-gradient(135deg, rgba(67, 160, 71, 0.05) 0%, rgba(129, 199, 132, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.1) 100%);
 }
 
 .mineralcraft-card {
@@ -933,15 +1001,15 @@ body {
 .calculator-cta {
   text-align: center;
   padding: 1.5rem;
-  background: rgba(196, 112, 97, 0.05);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 15px;
-  border: 2px solid rgba(196, 112, 97, 0.2);
+  border: 2px solid rgba(0, 0, 0, 0.2);
 }
 
 .cta-text {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent-coral);
   margin: 0;
 }
@@ -949,12 +1017,12 @@ body {
 /* Minerals Benefits Section */
 .minerals-section {
   padding: 5rem 1rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f6f4 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
   position: relative;
 }
 
 .minerals-header {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
   font-weight: 700;
   text-align: center;
@@ -975,26 +1043,52 @@ body {
 }
 
 .mineral-card {
-  background: var(--white);
   padding: 2rem;
-  border-radius: 15px;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: var(--shadow-soft);
-  border-left: 4px solid var(--accent-coral);
-  transition: all 0.3s ease;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.1),
+    0 15px 50px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.mineral-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  border-radius: inherit;
+  opacity: 0.8;
+  z-index: -1;
 }
 
 .mineral-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-strong);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 30px 80px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .mineral-name {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--accent-coral);
+  color: var(--primary-dark);
   margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
 }
 
 .mineral-benefits {
@@ -1002,6 +1096,24 @@ body {
   color: var(--dark-brown);
   opacity: 0.85;
   line-height: 1.6;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.mineral-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mineral-glow {
+  pointer-events: none;
+  z-index: 0;
 }
 
 .minerals-summary {
@@ -1040,12 +1152,12 @@ body {
 /* FAQ Section */
 .faq-section {
   padding: 5rem 1rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f6f4 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
   position: relative;
 }
 
 .faq-section h2 {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
   font-weight: 700;
   text-align: center;
@@ -1079,9 +1191,9 @@ body {
   background: transparent;
   border: none;
   text-align: left;
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--primary-dark);
   cursor: pointer;
   display: flex;
@@ -1120,32 +1232,62 @@ body {
   margin-bottom: 0;
 }
 
-/* Mobile Palette Switcher */
+/* Mobile Responsive Fixes */
 @media (max-width: 640px) {
+  /* Logo positioning for mobile */
+  .hero-logo {
+    top: 0.5rem;
+    left: 1rem;
+  }
+
+  .mineralcraft-logo {
+    height: 72px; /* 60px + 20% = 72px */
+  }
+
+  /* Hero content spacing to avoid logo overlap */
+  .hero-content {
+    margin-top: 60px; /* Reduced further to minimize gap with logo */
+    padding: 0 1rem;
+  }
+
+  /* Promotional text on same line as logo */
+  .promo-banner {
+    top: 0.5rem; /* Same level as logo */
+    right: 1rem;
+    left: 140px; /* Start after larger logo space */
+    width: calc(100% - 160px);
+  }
+
+  .promo-text {
+    font-size: 0.8rem;
+    color: var(--accent-coral);
+  }
+
+  /* Palette Switcher */
   .palette-switcher {
     top: 1rem;
     right: 1rem;
   }
-  
+
   .palette-button {
     padding: 0.6rem 0.8rem;
     font-size: 0.8rem;
   }
-  
+
   .palette-text {
     display: none;
   }
-  
+
   .palette-dropdown {
     width: 200px;
     right: -1rem;
   }
-  
+
   .theme-option {
     padding: 0.75rem 0.875rem;
     font-size: 0.8rem;
   }
-  
+
   .color-dot {
     width: 10px;
     height: 10px;
@@ -1157,9 +1299,33 @@ body {
   .hero {
     padding: 3rem 2rem;
   }
-  
+
   .hero-content {
     margin-bottom: 4rem;
+    margin-top: 0; /* Reset mobile margin */
+  }
+
+  /* Logo back to desktop size and position */
+  .hero-logo {
+    top: 1rem;
+    left: 2rem;
+  }
+
+  .mineralcraft-logo {
+    height: 96px; /* 80px + 20% = 96px */
+  }
+
+  /* Promotional text back to desktop position */
+  .promo-banner {
+    top: 1rem;
+    right: 2rem;
+    left: auto;
+    width: calc(100% - 220px);
+  }
+
+  .promo-text {
+    font-size: 0.9rem;
+    color: var(--accent-coral);
   }
   
   .features-grid {
@@ -1244,6 +1410,83 @@ body {
   .feature-card {
     padding: 0;
   }
+}
+
+/* 3D Effects and Animations */
+@keyframes floatCard {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotateX(1deg) rotateY(0.5deg);
+  }
+  50% {
+    transform: translateY(-3px) rotateX(0deg) rotateY(-0.5deg);
+  }
+  75% {
+    transform: translateY(-7px) rotateX(-1deg) rotateY(0deg);
+  }
+}
+
+.feature-card-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.feature-glow {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(
+    circle at center,
+    rgba(206, 180, 159, 0.3) 0%,
+    rgba(206, 180, 159, 0.1) 40%,
+    transparent 70%
+  );
+  border-radius: 35px;
+  filter: blur(15px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.feature-card:hover .feature-glow {
+  opacity: 1;
+}
+
+.features-grid {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+/* Enhanced hover effects */
+.feature-card:hover {
+  transform: translateY(-15px) scale(1.05);
+  box-shadow:
+    0 10px 25px rgba(73, 75, 51, 0.1),
+    0 20px 45px rgba(73, 75, 51, 0.15),
+    0 35px 60px rgba(73, 75, 51, 0.2),
+    0 50px 80px rgba(73, 75, 51, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.feature-card:hover .feature-image {
+  transform: scale(1.1) translateZ(10px);
+}
+
+.feature-card:hover h3 {
+  color: var(--primary-dark);
+  transform: translateZ(15px);
+}
+
+.feature-card:hover p {
+  color: var(--dark-brown);
+  transform: translateZ(10px);
 }
 
 /* Accessibility */
