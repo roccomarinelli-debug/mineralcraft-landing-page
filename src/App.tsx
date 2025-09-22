@@ -702,8 +702,9 @@ const App: React.FC = () => {
                 title="SodaStream Mineralcraft Process"
                 controls
                 muted
-                autoPlay
                 loop
+                playsInline
+                preload="metadata"
                 className="process-video"
               />
             </div>
