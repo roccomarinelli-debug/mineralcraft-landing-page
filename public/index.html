@@ -1,240 +1,43 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Description" content="Web site created using create-react-app">
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000; min-height: 15.0px}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #8c8aba}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Menlo; color: #000000}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-variant-ligatures: no-common-ligatures}
-    span.s2 {font-variant-ligatures: no-common-ligatures; color: #000000}
-    span.s3 {font-variant-ligatures: no-common-ligatures; color: #8c8aba}
-    span.s4 {font-variant-ligatures: no-common-ligatures; color: #abd8ff}
-    span.s5 {font-variant-ligatures: no-common-ligatures; color: #fed6a6}
-    span.s6 {font-kerning: none}
-  </style>
-</head>
-<body>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">... first 251 lines hidden ...</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">252 </span><span class="s1"><span class="Apple-converted-space">            </span>this.performanceMonitor = new PerformanceMonitor();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">253 </span><span class="s1"><span class="Apple-converted-space">            </span>this.scrollDepth = 0;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">254 </span><span class="s1"><span class="Apple-converted-space">            </span>this.timeOnPage = 0;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">255 </span><span class="s1"><span class="Apple-converted-space">            </span>this.pageStartTime = Date.now();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">256 </span><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">257<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">258 </span><span class="s1"><span class="Apple-converted-space">          </span>async trackPageView() {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">259 </span><span class="s1"><span class="Apple-converted-space">            </span>// Wait for performance metrics</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">260 </span><span class="s1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">261 </span><span class="s1"><span class="Apple-converted-space">              </span>this.performanceMonitor.measureLoadTime();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">262 </span><span class="s1"><span class="Apple-converted-space">            </span>}, 100);</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">263<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">264 </span><span class="s1"><span class="Apple-converted-space">            </span>this.performanceMonitor.measureLCP();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">265 </span><span class="s1"><span class="Apple-converted-space">            </span>this.performanceMonitor.measureFID();</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">266<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">267 </span><span class="s1"><span class="Apple-converted-space">            </span>const pageViewData = {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">268 </span><span class="s1"><span class="Apple-converted-space">              </span>sessionId: this.sessionManager.sessionId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">269 </span><span class="s1"><span class="Apple-converted-space">              </span>visitorId: this.sessionManager.visitorId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">270 </span><span class="s1"><span class="Apple-converted-space">              </span>pageUrl: window.location.href,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">271 </span><span class="s1"><span class="Apple-converted-space">              </span>pageTitle: document.title,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">272 </span><span class="s1"><span class="Apple-converted-space">              </span>referrer: document.referrer,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">273 </span><span class="s1"><span class="Apple-converted-space">              </span>timestamp: new Date().toISOString(),</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">274 </span><span class="s1"><span class="Apple-converted-space">              </span>...this.performanceMonitor.getMetrics(),</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">275 </span><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">276<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">277 </span><span class="s1"><span class="Apple-converted-space">            </span>log('Page view:', pageViewData);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">278 </span><span class="s1"><span class="Apple-converted-space">            </span>await sendEvent('page_view', pageViewData);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">279 </span><span class="s1"><span class="Apple-converted-space">            </span>this.sessionManager.pageViewCount++;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">280 </span><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">281<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">282 </span><span class="s1"><span class="Apple-converted-space">          </span>trackClick(event) {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">283 </span><span class="s1"><span class="Apple-converted-space">            </span>const element = event.target;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">284 </span><span class="s1"><span class="Apple-converted-space">            </span>const interactionData = {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">285 </span><span class="s1"><span class="Apple-converted-space">              </span>sessionId: this.sessionManager.sessionId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">286 </span><span class="s1"><span class="Apple-converted-space">              </span>visitorId: this.sessionManager.visitorId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">287 </span><span class="s1"><span class="Apple-converted-space">              </span>eventName: 'click',</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">288 </span><span class="s1"><span class="Apple-converted-space">              </span>pageUrl: window.location.href,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">289 </span><span class="s1"><span class="Apple-converted-space">              </span>elementId: element.id,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">290 </span><span class="s1"><span class="Apple-converted-space">              </span>elementClass: element.className,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">291 </span><span class="s1"><span class="Apple-converted-space">              </span>elementText: element.textContent?.slice(0, 100) || '',</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">292 </span><span class="s1"><span class="Apple-converted-space">              </span>clickX: event.clientX,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">293 </span><span class="s1"><span class="Apple-converted-space">              </span>clickY: event.clientY,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">294 </span><span class="s1"><span class="Apple-converted-space">              </span>scrollDepth: this.scrollDepth,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">295 </span><span class="s1"><span class="Apple-converted-space">              </span>timeOnPage: Date.now() - this.pageStartTime,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">296 </span><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">297<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">298 </span><span class="s1"><span class="Apple-converted-space">            </span>log('Click interaction:', interactionData);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">299 </span><span class="s1"><span class="Apple-converted-space">            </span>sendEvent('interaction', interactionData);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">300 </span><span class="s1"><span class="Apple-converted-space">            </span>this.sessionManager.updateActivity();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">301 </span><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">302<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">303 </span><span class="s1"><span class="Apple-converted-space">          </span>trackFormSubmit(event) {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">304 </span><span class="s1"><span class="Apple-converted-space">            </span>const form = event.target;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">305 </span><span class="s1"><span class="Apple-converted-space">            </span>const interactionData = {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">306 </span><span class="s1"><span class="Apple-converted-space">              </span>sessionId: this.sessionManager.sessionId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">307 </span><span class="s1"><span class="Apple-converted-space">              </span>visitorId: this.sessionManager.visitorId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">308 </span><span class="s1"><span class="Apple-converted-space">              </span>eventName: 'form_submit',</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">309 </span><span class="s1"><span class="Apple-converted-space">              </span>pageUrl: window.location.href,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">310 </span><span class="s1"><span class="Apple-converted-space">              </span>elementId: form.id,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">311 </span><span class="s1"><span class="Apple-converted-space">              </span>elementClass: form.className,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">312 </span><span class="s1"><span class="Apple-converted-space">              </span>customData: {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">313 </span><span class="s1"><span class="Apple-converted-space">                </span>formAction: form.action,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">314 </span><span class="s1"><span class="Apple-converted-space">                </span>formMethod: form.method,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">315 </span><span class="s1"><span class="Apple-converted-space">                </span>fieldCount: form.elements.length,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">316 </span><span class="s1"><span class="Apple-converted-space">              </span>},</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">317 </span><span class="s1"><span class="Apple-converted-space">              </span>scrollDepth: this.scrollDepth,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">318 </span><span class="s1"><span class="Apple-converted-space">              </span>timeOnPage: Date.now() - this.pageStartTime,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">319 </span><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">320<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">321 </span><span class="s1"><span class="Apple-converted-space">            </span>log('Form submit:', interactionData);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">322 </span><span class="s1"><span class="Apple-converted-space">            </span>sendEvent('interaction', interactionData);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">323 </span><span class="s1"><span class="Apple-converted-space">            </span>this.sessionManager.updateActivity();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">324 </span><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">325<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">326 </span><span class="s1"><span class="Apple-converted-space">          </span>trackScroll() {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">327 </span><span class="s1"><span class="Apple-converted-space">            </span>const scrolled = window.pageYOffset;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">328 </span><span class="s1"><span class="Apple-converted-space">            </span>const maxScroll = document.body.scrollHeight - window.innerHeight;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">329 </span><span class="s1"><span class="Apple-converted-space">            </span>this.scrollDepth = Math.round((scrolled / maxScroll) * 100);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">330 </span><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">331<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">332 </span><span class="s1"><span class="Apple-converted-space">          </span>setupEventListeners() {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">333 </span><span class="s1"><span class="Apple-converted-space">            </span>// Click tracking</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">334 </span><span class="s1"><span class="Apple-converted-space">            </span>document.addEventListener('click', (e) =&gt; this.trackClick(e), true);</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">335<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">336 </span><span class="s1"><span class="Apple-converted-space">            </span>// Form submit tracking</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">337 </span><span class="s1"><span class="Apple-converted-space">            </span>document.addEventListener('submit', (e) =&gt; this.trackFormSubmit(e), true);</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">338<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">339 </span><span class="s1"><span class="Apple-converted-space">            </span>// Scroll tracking</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">340 </span><span class="s1"><span class="Apple-converted-space">            </span>let scrollTimer;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">341 </span><span class="s1"><span class="Apple-converted-space">            </span>window.addEventListener('scroll', () =&gt; {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">342 </span><span class="s1"><span class="Apple-converted-space">              </span>clearTimeout(scrollTimer);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">343 </span><span class="s1"><span class="Apple-converted-space">              </span>scrollTimer = setTimeout(() =&gt; this.trackScroll(), 100);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">344 </span><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">345<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">346 </span><span class="s1"><span class="Apple-converted-space">            </span>// Page visibility</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">347 </span><span class="s1"><span class="Apple-converted-space">            </span>document.addEventListener('visibilitychange', () =&gt; {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">348 </span><span class="s1"><span class="Apple-converted-space">              </span>if (document.hidden) {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">349 </span><span class="s1"><span class="Apple-converted-space">                </span>this.sessionManager.updateActivity();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">350 </span><span class="s1"><span class="Apple-converted-space">              </span>}</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">351 </span><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">352<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">353 </span><span class="s1"><span class="Apple-converted-space">            </span>// Before unload</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">354 </span><span class="s1"><span class="Apple-converted-space">            </span>window.addEventListener('beforeunload', () =&gt; {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">355 </span><span class="s1"><span class="Apple-converted-space">              </span>// Send final interaction data</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">356 </span><span class="s1"><span class="Apple-converted-space">              </span>const finalData = {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">357 </span><span class="s1"><span class="Apple-converted-space">                </span>sessionId: this.sessionManager.sessionId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">358 </span><span class="s1"><span class="Apple-converted-space">                </span>visitorId: this.sessionManager.visitorId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">359 </span><span class="s1"><span class="Apple-converted-space">                </span>eventName: 'page_exit',</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">360 </span><span class="s1"><span class="Apple-converted-space">                </span>pageUrl: window.location.href,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">361 </span><span class="s1"><span class="Apple-converted-space">                </span>timeOnPage: Date.now() - this.pageStartTime,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">362 </span><span class="s1"><span class="Apple-converted-space">                </span>scrollDepth: this.scrollDepth,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">363 </span><span class="s1"><span class="Apple-converted-space">              </span>};</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">364 </span><span class="s1"><span class="Apple-converted-space">              </span>navigator.sendBeacon?.(config.apiEndpoint, JSON.stringify({</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">365 </span><span class="s1"><span class="Apple-converted-space">                </span>type: 'interaction',</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">366 </span><span class="s1"><span class="Apple-converted-space">                </span>data: finalData</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">367 </span><span class="s1"><span class="Apple-converted-space">              </span>}));</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">368 </span><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">369 </span><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">370 </span><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">371<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">372 </span><span class="s1"><span class="Apple-converted-space">        </span>// Main initialization</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">373 </span><span class="s1"><span class="Apple-converted-space">        </span>async function init() {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">374 </span><span class="s1"><span class="Apple-converted-space">          </span>log('Initializing Attribution Analytics...');</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">375<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">376 </span><span class="s1"><span class="Apple-converted-space">          </span>const sessionManager = new SessionManager();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">377 </span><span class="s1"><span class="Apple-converted-space">          </span>const eventTracker = new EventTracker(sessionManager);</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">378<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">379 </span><span class="s1"><span class="Apple-converted-space">          </span>// Start session</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">380 </span><span class="s1"><span class="Apple-converted-space">          </span>await sessionManager.startSession();</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">381<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">382 </span><span class="s1"><span class="Apple-converted-space">          </span>// Track page view</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">383 </span><span class="s1"><span class="Apple-converted-space">          </span>await eventTracker.trackPageView();</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">384<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">385 </span><span class="s1"><span class="Apple-converted-space">          </span>// Setup event listeners</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">386 </span><span class="s1"><span class="Apple-converted-space">          </span>eventTracker.setupEventListeners();</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">387<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">388 </span><span class="s1"><span class="Apple-converted-space">          </span>// Heartbeat to keep session alive</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">389 </span><span class="s1"><span class="Apple-converted-space">          </span>setInterval(() =&gt; {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">390 </span><span class="s1"><span class="Apple-converted-space">            </span>if (!sessionManager.isSessionExpired()) {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">391 </span><span class="s1"><span class="Apple-converted-space">              </span>sessionManager.updateActivity();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">392 </span><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">393 </span><span class="s1"><span class="Apple-converted-space">          </span>}, config.heartbeatInterval);</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">394<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">395 </span><span class="s1"><span class="Apple-converted-space">          </span>log('Attribution Analytics initialized successfully');</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">396 </span><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">397<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">398 </span><span class="s1"><span class="Apple-converted-space">        </span>// Auto-initialize when DOM is ready</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">399 </span><span class="s1"><span class="Apple-converted-space">        </span>if (document.readyState === 'loading') {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">400 </span><span class="s1"><span class="Apple-converted-space">          </span>document.addEventListener('DOMContentLoaded', init);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">401 </span><span class="s1"><span class="Apple-converted-space">        </span>} else {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">402 </span><span class="s1"><span class="Apple-converted-space">          </span>init();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">403 </span><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">404<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">405 </span><span class="s1"><span class="Apple-converted-space">        </span>// Global API for manual event tracking</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">406 </span><span class="s1"><span class="Apple-converted-space">        </span>window.AttributionAnalytics = {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">407 </span><span class="s1"><span class="Apple-converted-space">          </span>trackEvent: function(eventName, customData = {}) {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">408 </span><span class="s1"><span class="Apple-converted-space">            </span>const sessionId = sessionStorage.getItem('aa_session_id');</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">409 </span><span class="s1"><span class="Apple-converted-space">            </span>const visitorId = getCookie('aa_visitor_id');</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">410<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">411 </span><span class="s1"><span class="Apple-converted-space">            </span>if (!sessionId || !visitorId) {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">412 </span><span class="s1"><span class="Apple-converted-space">              </span>log('Session not initialized for custom event');</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">413 </span><span class="s1"><span class="Apple-converted-space">              </span>return;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">414 </span><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">415<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">416 </span><span class="s1"><span class="Apple-converted-space">            </span>const eventData = {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">417 </span><span class="s1"><span class="Apple-converted-space">              </span>sessionId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">418 </span><span class="s1"><span class="Apple-converted-space">              </span>visitorId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">419 </span><span class="s1"><span class="Apple-converted-space">              </span>eventName,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">420 </span><span class="s1"><span class="Apple-converted-space">              </span>pageUrl: window.location.href,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">421 </span><span class="s1"><span class="Apple-converted-space">              </span>customData,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">422 </span><span class="s1"><span class="Apple-converted-space">              </span>timestamp: new Date().toISOString(),</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">423 </span><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">424<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">425 </span><span class="s1"><span class="Apple-converted-space">            </span>sendEvent('interaction', eventData);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">426 </span><span class="s1"><span class="Apple-converted-space">          </span>},</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">427<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">428 </span><span class="s1"><span class="Apple-converted-space">          </span>trackConversion: function(conversionData) {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">429 </span><span class="s1"><span class="Apple-converted-space">            </span>const sessionId = sessionStorage.getItem('aa_session_id');</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">430<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">431 </span><span class="s1"><span class="Apple-converted-space">            </span>if (!sessionId) {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">432 </span><span class="s1"><span class="Apple-converted-space">              </span>log('Session not initialized for conversion');</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">433 </span><span class="s1"><span class="Apple-converted-space">              </span>return;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">434 </span><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">435<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">436 </span><span class="s1"><span class="Apple-converted-space">            </span>const fullConversionData = {</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">437 </span><span class="s1"><span class="Apple-converted-space">              </span>sessionId,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">438 </span><span class="s1"><span class="Apple-converted-space">              </span>...conversionData,</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">439 </span><span class="s1"><span class="Apple-converted-space">              </span>timestamp: new Date().toISOString(),</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">440 </span><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">441<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">442 </span><span class="s1"><span class="Apple-converted-space">            </span>sendEvent('conversion', fullConversionData);</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">443 </span><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">444 </span><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">445 </span><span class="s1"><span class="Apple-converted-space">      </span>})();</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">446 </span><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s4">script</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">447 </span><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;/</span><span class="s4">head</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">448 </span><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;</span><span class="s4">body</span><span class="s1">&gt;</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">449 </span><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s4">noscript</span><span class="s3">&gt;</span><span class="s1">You need to enable JavaScript to run this app.</span><span class="s3">&lt;/</span><span class="s4">noscript</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">450 </span><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;</span><span class="s4">div</span><span class="s1"> </span><span class="s4">id</span><span class="s1">=</span><span class="s5">"root"</span><span class="s1">&gt;&lt;/</span><span class="s4">div</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">451 </span><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;!--</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">452 </span><span class="s1"><span class="Apple-converted-space">      </span>This HTML file is a template.</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">453 </span><span class="s1"><span class="Apple-converted-space">      </span>If you open it directly in the browser, you will see an empty page.</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">454<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">455 </span><span class="s1"><span class="Apple-converted-space">      </span>You can add webfonts, meta tags, or analytics to this file.</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">456 </span><span class="s1"><span class="Apple-converted-space">      </span>The build step will place the bundled scripts into the </span><span class="s3">&lt;</span><span class="s4">body</span><span class="s3">&gt;</span><span class="s1"> tag.</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">457<span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">458 </span><span class="s1"><span class="Apple-converted-space">      </span>To begin the a, run `npm start` or `yarn start`.</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">459 </span><span class="s1"><span class="Apple-converted-space">      </span>To create a production bundle, use `npm run build` or `yarn build`.</span></p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">   </span></span><span class="s3">460 </span><span class="s1"><span class="Apple-converted-space">    </span>--&gt;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">461 </span><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;/</span><span class="s4">body</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">   </span></span><span class="s1">462 &lt;/</span><span class="s4">html</span><span class="s1">&gt;</span></p>
-<p class="p4"><span class="s6"></span><br></p>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
 </html>
