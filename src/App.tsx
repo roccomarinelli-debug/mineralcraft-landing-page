@@ -6,25 +6,159 @@ import './App.css';
 
 // Analytics Tracking System
 interface TrackingEvent {
-  action: string;
+  eventName: string;
   category: string;
   label: string;
   timestamp: number;
   userId?: string;
   sessionId: string;
+  visitorId: string;
 }
+
+const getCookie = (name: string): string | null => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+  return null;
+};
+
+const setCookie = (name: string, value: string, days = 30) => {
+  const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+  document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Strict`;
+};
+
+const getVisitorId = (): string => {
+  let visitorId = getCookie('mineralcraft_visitor_id');
+  if (!visitorId) {
+    visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    setCookie('mineralcraft_visitor_id', visitorId);
+  }
+  return visitorId;
+};
+
+const API_ENDPOINT = process.env.REACT_APP_ATTRIBUTION_API || 'https://attribution-analytics-dashboard.vercel.app/api/tracking';
+
+const getUrlParams = () => {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    utmSource: params.get('utm_source'),
+    utmMedium: params.get('utm_medium'),
+    utmCampaign: params.get('utm_campaign'),
+    utmTerm: params.get('utm_term'),
+    utmContent: params.get('utm_content'),
+    fbclid: params.get('fbclid'),
+    gclid: params.get('gclid'),
+    ttclid: params.get('ttclid'),
+  };
+};
+
+const getDeviceInfo = () => {
+  const ua = navigator.userAgent;
+  let deviceType = 'desktop';
+
+  if (/tablet|ipad|playbook|silk/i.test(ua)) {
+    deviceType = 'tablet';
+  } else if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(ua)) {
+    deviceType = 'mobile';
+  }
+
+  let browser = 'unknown';
+  if (ua.includes('Chrome')) browser = 'chrome';
+  else if (ua.includes('Firefox')) browser = 'firefox';
+  else if (ua.includes('Safari')) browser = 'safari';
+  else if (ua.includes('Edge')) browser = 'edge';
+
+  let os = 'unknown';
+  if (ua.includes('Windows')) os = 'windows';
+  else if (ua.includes('Mac')) os = 'macos';
+  else if (ua.includes('Linux')) os = 'linux';
+  else if (ua.includes('Android')) os = 'android';
+  else if (ua.includes('iOS')) os = 'ios';
+
+  return { deviceType, browser, os };
+};
+
+const sendToAttributionApi = async (type: string, data: any) => {
+  try {
+    const response = await fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ type, data }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log('Attribution API Event sent successfully:', result);
+    return result;
+  } catch (error) {
+    console.error('Error sending event to Attribution API:', error);
+    return null;
+  }
+};
+
+const initializeTracking = async () => {
+  const sessionId = getSessionId();
+  const visitorId = getVisitorId();
+  const urlParams = getUrlParams();
+  const deviceInfo = getDeviceInfo();
+
+  const sessionData = {
+    sessionId,
+    visitorId,
+    userAgent: navigator.userAgent,
+    ipAddress: null,
+    ...urlParams,
+    referrer: document.referrer,
+    landingPage: window.location.href,
+    ...deviceInfo,
+    country: null,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    language: navigator.language,
+  };
+
+  console.log('🚀 Starting session:', sessionData);
+  await sendToAttributionApi('session_start', sessionData);
+
+  const pageViewData = {
+    sessionId,
+    visitorId,
+    pageUrl: window.location.href,
+    pageTitle: document.title,
+    referrer: document.referrer,
+    timestamp: new Date().toISOString(),
+  };
+
+  console.log('📄 Page view:', pageViewData);
+  await sendToAttributionApi('page_view', pageViewData);
+};
 
 const trackEvent = (action: string, category: string, label: string) => {
   const event: TrackingEvent = {
-    action,
+    eventName: action,
     category,
     label,
     timestamp: Date.now(),
-    sessionId: getSessionId()
+    sessionId: getSessionId(),
+    visitorId: getVisitorId(),
   };
 
   // Console log for development
   console.log('🔍 Analytics Event:', event);
+
+  // Send to our attribution API
+  sendToAttributionApi('interaction', {
+    sessionId: event.sessionId,
+    visitorId: event.visitorId,
+    eventName: action,
+    pageUrl: window.location.href,
+    customData: {
+      category,
+      label,
+    },
+  });
   
   // Send to Google Analytics 4 (if configured)
   if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -69,6 +203,67 @@ const trackPageView = (pageName: string) => {
       page_location: window.location.href
     });
   }
+};
+
+const trackButtonClick = async (buttonName: string, buttonLocation: string) => {
+  const sessionId = getSessionId();
+  const visitorId = getVisitorId();
+
+  await sendToAttributionApi('button_click', {
+    sessionId,
+    visitorId,
+    eventName: 'button_click',
+    pageUrl: window.location.href,
+    customData: {
+      buttonName,
+      buttonLocation,
+      timestamp: new Date().toISOString()
+    }
+  });
+
+  trackEvent('button_click', 'Engagement', `${buttonName} - ${buttonLocation}`);
+};
+
+const trackTimeOnPage = async () => {
+  const sessionId = getSessionId();
+  const visitorId = getVisitorId();
+  const pageLoadTime = performance.now();
+
+  const sendTimeUpdate = async () => {
+    const timeOnPage = Math.floor(performance.now() / 1000);
+    await sendToAttributionApi('time_on_page', {
+      sessionId,
+      visitorId,
+      pageUrl: window.location.href,
+      timeOnPage,
+      timestamp: new Date().toISOString()
+    });
+  };
+
+  setInterval(sendTimeUpdate, 15000);
+
+  window.addEventListener('beforeunload', sendTimeUpdate);
+};
+
+const trackExitIntent = () => {
+  let exitIntentTriggered = false;
+
+  const handleExitIntent = async (e: MouseEvent) => {
+    if (e.clientY <= 0 && !exitIntentTriggered) {
+      exitIntentTriggered = true;
+
+      await sendToAttributionApi('exit_intent', {
+        sessionId: getSessionId(),
+        visitorId: getVisitorId(),
+        pageUrl: window.location.href,
+        timestamp: new Date().toISOString()
+      });
+
+      trackEvent('exit_intent', 'Engagement', 'User attempted to leave page');
+    }
+  };
+
+  document.addEventListener('mouseleave', handleExitIntent as any);
 };
 
 // Feature Card Component
@@ -357,8 +552,11 @@ const App: React.FC = () => {
 
   // Track initial page load
   useEffect(() => {
+    initializeTracking();
     trackPageView('Mineralcraft Landing Page');
     trackEvent('Page_Load', 'Landing', 'Initial Visit');
+    trackTimeOnPage();
+    trackExitIntent();
   }, []);
 
   // Track section visibility
@@ -391,8 +589,52 @@ const App: React.FC = () => {
   return (
     <div className="app">
 
+      {/* White Header Strip */}
+      <motion.div
+        className="white-header"
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        {/* Logo */}
+        <motion.div
+          className="hero-logo"
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+        >
+          <img
+            src="/images/products/updated logo.webp"
+            alt="Mineralcraft"
+            className="mineralcraft-logo"
+          />
+        </motion.div>
+
+        {/* Promotional Text */}
+        <motion.div
+          className="promo-banner"
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
+        >
+          <div className="promo-banner-content">
+            <div
+              className="promo-text"
+              onClick={() => {
+                trackEvent('Promo_Banner_Click', 'Promotion', 'LAUNCH Code Banner');
+                trackButtonClick('LAUNCH 20% OFF Promo Banner', 'Hero Top Banner');
+                window.open('https://shop.app/checkout/82707906868/cn/hWN1OYjQsyU7yI5py65ncD8a/shoppay?_cs=3.AMPS&authorization=cGVFWXlJNW42TGpDMCtueWxxME9YMy9lbCt0V252a3h1Mkd2UmdHNDMzMEY1RGlEbVFWYm80cUpPWnY2VVFPNVllT2l4dlR3TW5PQ1MveUlIc1VGbkhpelVTZ3hFRk1hRUFtODhTSUkxUitoWFlubjlMekdZTUR6eGtoTUM0Y2ZaTkUyVEw5TGpnUlNOVExFaXdaVFgzRWZNMU51dzZORDJ0YWdXaTZGKzZBQnNvbzZFVlBUSkpXcEJuYjRZZnBTLS01OXdVK0dPVzl0OFQ3eDNvelJuWDNRPT0%3D--03538a3dd38f0f0e9f688ac50cc8360c171d62e5&discount_code=LAUNCH&preview_theme_id=167526138164&redirect_source=checkout_automatic_redirect&tracking_unique=1d7c29f8-1a25-4bec-921e-b76a5725034e&tracking_visit=0423dd0f-2e03-44a9-bea6-f29c2c9009c', '_blank', 'noopener,noreferrer');
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              Use code 'LAUNCH' for 20% OFF ✨ Use code 'LAUNCH' for 20% OFF ✨ Use code 'LAUNCH' for 20% OFF ✨
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+
       {/* Hero Section */}
-      <motion.section 
+      <motion.section
         ref={heroRef}
         className="hero"
         style={{ y }}
@@ -401,7 +643,7 @@ const App: React.FC = () => {
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
         <div className="hero-background">
-          <motion.div 
+          <motion.div
             className="floating-bubbles"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -412,7 +654,7 @@ const App: React.FC = () => {
                 key={i}
                 className="bubble"
                 initial={{ y: 100, opacity: 0 }}
-                animate={{ 
+                animate={{
                   y: [-20, -100, -20],
                   opacity: [0, 0.7, 0]
                 }}
@@ -430,41 +672,6 @@ const App: React.FC = () => {
             ))}
           </motion.div>
         </div>
-        
-        {/* Hero Logo - Integrated into Hero */}
-        <motion.div
-          className="hero-logo"
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
-        >
-          <img
-            src="/images/products/updated logo.webp"
-            alt="Mineralcraft"
-            className="mineralcraft-logo"
-          />
-        </motion.div>
-
-        {/* Promotional Text - Simple Scrolling */}
-        <motion.div
-          className="promo-banner"
-          initial={{ x: 50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-        >
-          <div className="promo-banner-content">
-            <div
-              className="promo-text"
-              onClick={() => {
-                trackEvent('Promo_Banner_Click', 'Promotion', 'LAUNCH Code Banner');
-                window.open('https://shop.app/checkout/82707906868/cn/hWN1OYjQsyU7yI5py65ncD8a/shoppay?_cs=3.AMPS&authorization=cGVFWXlJNW42TGpDMCtueWxxME9YMy9lbCt0V252a3h1Mkd2UmdHNDMzMEY1RGlEbVFWYm80cUpPWnY2VVFPNVllT2l4dlR3TW5PQ1MveUlIc1VGbkhpelVTZ3hFRk1hRUFtODhTSUkxUitoWFlubjlMekdZTUR6eGtoTUM0Y2ZaTkUyVEw5TGpnUlNOVExFaXdaVFgzRWZNMU51dzZORDJ0YWdXaTZGKzZBQnNvbzZFVlBUSkpXcEJuYjRZZnBTLS01OXdVK0dPVzl0OFQ3eDNvelJuWDNRPT0%3D--03538a3dd38f0f0e9f688ac50cc8360c171d62e5&discount_code=LAUNCH&preview_theme_id=167526138164&redirect_source=checkout_automatic_redirect&tracking_unique=1d7c29f8-1a25-4bec-921e-b76a5725034e&tracking_visit=0423dd0f-2e03-44a9-bea6-f29c2c9009c', '_blank', 'noopener,noreferrer');
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              Use code 'LAUNCH' for 20% OFF ✨ Use code 'LAUNCH' for 20% OFF ✨ Use code 'LAUNCH' for 20% OFF ✨
-            </div>
-          </div>
-        </motion.div>
 
         <div className="hero-content">
           
@@ -486,14 +693,17 @@ const App: React.FC = () => {
           </motion.p>
           
           <motion.a
-            href="https://mineralcraft.co/products/italian-alps-1"
+            href={`https://mineralcraft.co/products/italian-alps-1?session=${getSessionId()}`}
             className="cta-button primary"
             initial={{ scale: 0 }}
             animate={{ scale: heroInView ? 1 : 0 }}
             transition={{ delay: 1, duration: 0.6, type: "spring", bounce: 0.3 }}
             whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(196, 112, 97, 0.4)" }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => trackEvent('CTA_Click', 'Hero', 'Try It Now')}
+            onClick={() => {
+              trackEvent('CTA_Click', 'Hero', 'Try It Now');
+              trackButtonClick('Try It Now - Primary CTA', 'Hero Section');
+            }}
           >
             <ShoppingCart className="button-icon" />
             TRY IT NOW
@@ -608,14 +818,17 @@ const App: React.FC = () => {
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           <motion.a
-            href="https://mineralcraft.co/products/italian-alps-1"
+            href={`https://mineralcraft.co/products/italian-alps-1?session=${getSessionId()}`}
             className="cta-button primary"
-            whileHover={{ 
+            whileHover={{
               scale: 1.05,
               boxShadow: "0 20px 40px rgba(73, 75, 51, 0.3)" 
             }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => trackEvent('CTA_Click', 'Features', 'Buy Now')}
+            onClick={() => {
+              trackEvent('CTA_Click', 'Features', 'Buy Now');
+              trackButtonClick('Buy Now', 'Features Section');
+            }}
           >
             <ShoppingCart className="button-icon" />
             BUY NOW
@@ -684,7 +897,10 @@ const App: React.FC = () => {
                 boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)" 
               }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => trackEvent('CTA_Click', 'Steps_Section', 'Learn More')}
+              onClick={() => {
+                trackEvent('CTA_Click', 'Steps_Section', 'Learn More');
+                trackButtonClick('Learn More - How It Works', '2-Step Process Section');
+              }}
             >
               LEARN MORE
             </motion.a>
@@ -768,7 +984,7 @@ const App: React.FC = () => {
         </div>
 
         <motion.a
-          href="https://mineralcraft.co/products/italian-alps-1"
+          href={`https://mineralcraft.co/products/italian-alps-1?session=${getSessionId()}`}
           className="cta-button secondary"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: ctaInView ? 0 : 50, opacity: ctaInView ? 1 : 0 }}
@@ -778,7 +994,10 @@ const App: React.FC = () => {
             boxShadow: "0 15px 35px rgba(206, 180, 159, 0.4)" 
           }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => trackEvent('CTA_Click', 'Final_CTA', 'Buy Now')}
+          onClick={() => {
+            trackEvent('CTA_Click', 'Final_CTA', 'Buy Now');
+            trackButtonClick('Buy Now', 'Final CTA Section');
+          }}
         >
           <ShoppingCart className="button-icon" />
           BUY NOW
@@ -883,6 +1102,7 @@ const App: React.FC = () => {
                   const isOpening = openFaqIndex !== index;
                   setOpenFaqIndex(openFaqIndex === index ? null : index);
                   trackEvent('FAQ_Toggle', 'FAQ', `${faq.question} - ${isOpening ? 'Opened' : 'Closed'}`);
+                  trackButtonClick(`FAQ: ${faq.question}`, `FAQ Section - ${isOpening ? 'Expand' : 'Collapse'}`);
                 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
